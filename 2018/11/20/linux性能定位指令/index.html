@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  <meta name="baidu-site-verification" content="L6Lm9d5Crl">
+  
+  
+  
+  
+  <title>Linux 查看性能的指令 | Daniel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Linux 查看性能的指令： 欢迎来学习~~">
+<meta name="keywords" content="linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux 查看性能的指令">
+<meta property="og:url" content="https://danielxsm.github.io/2018/11/20/linux性能定位指令/index.html">
+<meta property="og:site_name" content="Daniel">
+<meta property="og:description" content="Linux 查看性能的指令： 欢迎来学习~~">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-11-29T06:14:23.579Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux 查看性能的指令">
+<meta name="twitter:description" content="Linux 查看性能的指令： 欢迎来学习~~">
+  
+    <link rel="alternative" href="https://github.com/DanielXSM" title="Daniel" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/avatar1.png">
+  
+  
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet">
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/avatar1.png" class="js-avatar">
+            
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Daniel</a></h1>
+        </hgroup>
+        
+        
+            <form>
+                <input type="text" class="st-default-search-input search" id="local-search-input" placeholder="搜索一下" autocomplete="off">
+            </form>
+            <div id="local-search-result"></div>
+        
+        
+            <script type="text/javascript">
+                (function() {
+                    'use strict';
+                    function getMatchData(keyword, data) {
+                        var matchData = [];
+                        for(var i =0;i<data.length;i++){
+                            if(data[i].title.toLowerCase().indexOf(keyword)>=0) 
+                                matchData.push(data[i])
+                        }
+                        return matchData;
+                    }
+                    var $input = $('#local-search-input');
+                    var $resultContent = $('#local-search-result');
+                    $input.keyup(function(){
+                        $.ajax({
+                            url: '/search.json',
+                            dataType: "json",
+                            success: function( json ) {
+                                var str='<ul class=\"search-result-list\">';                
+                                var keyword = $input.val().trim().toLowerCase();
+                                $resultContent.innerHTML = "";
+                                if ($input.val().trim().length <= 0) {
+                                    $resultContent.empty();
+                                    $('#switch-area').show();
+                                    return;
+                                }
+                                var results = getMatchData(keyword, json);
+                                if(results.length === 0){
+                                    $resultContent.empty();
+                                    $('#switch-area').show();
+                                    return;
+                                } 
+                                for(var i =0; i<results.length; i++){
+                                    str += "<li><a href='"+ results[i].url +"' class='search-result-title'>"+ results[i].title +"</a></li>";
+                                }
+                                str += "</ul>";
+                                $resultContent.empty();
+                                $resultContent.append(str);
+                                $('#switch-area').hide();
+                            }
+                        });
+                    });
+                })();
+            </script>
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/categories/spring/">玩转spring</a></li>
+                        
+                            <li><a href="/categories/linux">Linux指令</a></li>
+                        
+                            <li><a href="/categories/java">java大典</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/DanielXSM" title="github">github</a>
+                            
+                                <a class="fl weibo" target="_blank" href="https://github.com/DanielXSM" title="weibo">weibo</a>
+                            
+                                <a class="fl rss" target="_blank" href="https://github.com/DanielXSM" title="rss">rss</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/jvm/" style="font-size: 10px;">jvm</a> <a href="/tags/linux/" style="font-size: 20px;">linux</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/okhttp/" style="font-size: 10px;">okhttp</a> <a href="/tags/push-message/" style="font-size: 10px;">push message</a> <a href="/tags/spring-标签/" style="font-size: 10px;">spring 标签</a> <a href="/tags/zookeeper/" style="font-size: 10px;">zookeeper</a> <a href="/tags/代理/" style="font-size: 10px;">代理</a> <a href="/tags/反射/" style="font-size: 10px;">反射</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/数据结构/" style="font-size: 10px;">数据结构</a> <a href="/tags/算法/" style="font-size: 20px;">算法</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/鉴权/" style="font-size: 10px;">鉴权</a> <a href="/tags/锁/" style="font-size: 10px;">锁</a> <a href="/tags/队列/" style="font-size: 10px;">队列</a>
+                    </div>
+                </section>
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/DanielXSM">csdn</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/DanielXSM">segmentfault</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/DanielXSM">简书</a>
+                    
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">运动，音乐，舞蹈!</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Daniel</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/avatar1.png" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Daniel</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/categories/spring/">玩转spring</a></li>
+                
+                    <li><a href="/categories/linux">Linux指令</a></li>
+                
+                    <li><a href="/categories/java">java大典</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="github" target="_blank" href="https://github.com/DanielXSM" title="github">github</a>
+                    
+                        <a class="weibo" target="_blank" href="https://github.com/DanielXSM" title="weibo">weibo</a>
+                    
+                        <a class="rss" target="_blank" href="https://github.com/DanielXSM" title="rss">rss</a>
+                    
+                </div>
+            </nav>
+        </header>
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-linux性能定位指令" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/11/20/linux性能定位指令/" class="article-date">
+      <time datetime="2018-11-19T16:00:00.000Z" itemprop="datePublished">2018-11-20</time>
+</a>
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux 查看性能的指令
+    </h1>
+  
+
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/linux/">linux</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><strong> Linux 查看性能的指令：</strong> <excerpt in="" index="" |="" 首页摘要=""><br>欢迎来学习~~<br><a id="more"></a></excerpt></p>
+<the rest="" of="" contents="" |="" 余下全文="">
+
+<h2 id="linux的问题追踪"><a href="#linux的问题追踪" class="headerlink" title="linux的问题追踪"></a>linux的问题追踪</h2><h3 id="top命令：-top"><a href="#top命令：-top" class="headerlink" title="top命令： top"></a>top命令： <strong>top</strong></h3><h3 id="查看内存：free-m"><a href="#查看内存：free-m" class="headerlink" title="查看内存：free -m"></a>查看内存：<strong>free -m</strong></h3><h3 id="查看日志：-cat-catalina-out-egrep-‘出金-全部出金’-–color-auto"><a href="#查看日志：-cat-catalina-out-egrep-‘出金-全部出金’-–color-auto" class="headerlink" title="查看日志： cat catalina.out|egrep ‘出金|全部出金’ –color=auto"></a>查看日志： <strong>cat catalina.out|egrep ‘出金|全部出金’ –color=auto</strong></h3><h3 id="查看日志：cat-catalina-out-egrep-‘2017-07-21-03-12-0-0-2-–color-auto’"><a href="#查看日志：cat-catalina-out-egrep-‘2017-07-21-03-12-0-0-2-–color-auto’" class="headerlink" title="查看日志：cat catalina.out|egrep ‘2017-07-21 03:12:0[0-2] –color=auto’"></a>查看日志：<strong>cat catalina.out|egrep ‘2017-07-21 03:12:0[0-2] –color=auto’</strong></h3><h3 id="查看端口：-netstat-lntup"><a href="#查看端口：-netstat-lntup" class="headerlink" title="查看端口： netstat -lntup"></a>查看端口： <strong>netstat -lntup</strong></h3><h3 id="查看io情况：iostat"><a href="#查看io情况：iostat" class="headerlink" title="查看io情况：iostat"></a>查看io情况：<strong>iostat</strong></h3><h3 id="防火墙的设置功能：iptables-nL"><a href="#防火墙的设置功能：iptables-nL" class="headerlink" title="防火墙的设置功能：iptables -nL"></a>防火墙的设置功能：<strong>iptables -nL</strong></h3><h3 id="查看端口信息：lsof-i-端口号"><a href="#查看端口信息：lsof-i-端口号" class="headerlink" title="查看端口信息：lsof -i:  端口号"></a>查看端口信息：<strong>lsof -i:  端口号</strong></h3><h3 id="查看虚拟机情况：-jmap-heap-进程"><a href="#查看虚拟机情况：-jmap-heap-进程" class="headerlink" title="查看虚拟机情况： jmap -heap 进程"></a>查看虚拟机情况： <strong>jmap -heap</strong> 进程</h3><h3 id="进程-查看历史虚拟机-jmap-histo"><a href="#进程-查看历史虚拟机-jmap-histo" class="headerlink" title="进程  查看历史虚拟机 jmap -histo"></a>进程  查看历史虚拟机 <strong>jmap -histo</strong></h3><h3 id="top-查看"><a href="#top-查看" class="headerlink" title="top 查看"></a><strong>top 查看</strong></h3><h3 id="根据进程查看top-H-p查看某个进程内部线程占用情况分析-pstack显示每个进程的栈跟踪"><a href="#根据进程查看top-H-p查看某个进程内部线程占用情况分析-pstack显示每个进程的栈跟踪" class="headerlink" title="根据进程查看top -H -p查看某个进程内部线程占用情况分析: pstack显示每个进程的栈跟踪"></a>根据进程查看<strong>top -H -p查看某个进程内部线程占用情况分析: pstack显示每个进程的栈跟踪</strong></h3><h3 id="下载当前的java线程栈-sudo-u-tomcat-jstack-l-384-gt-1-txt"><a href="#下载当前的java线程栈-sudo-u-tomcat-jstack-l-384-gt-1-txt" class="headerlink" title="下载当前的java线程栈 sudo -u tomcat jstack -l 384&gt;/1.txt"></a>下载当前的java线程栈 <strong>sudo -u tomcat jstack -l 384&gt;/1.txt</strong></h3><h3 id="dump-java堆数据-sudo-u-tomcat-jmap-dump-live-format-b-file-dump201612271310-dat-384"><a href="#dump-java堆数据-sudo-u-tomcat-jmap-dump-live-format-b-file-dump201612271310-dat-384" class="headerlink" title="dump java堆数据 sudo -u tomcat jmap -dump:live,format=b,file=/dump201612271310.dat 384"></a>dump java堆数据 <strong>sudo -u tomcat jmap -dump:live,format=b,file=/dump201612271310.dat 384</strong></h3><h3 id="1：死锁：Deadlock-2-执行中Runnable-3-等待资源Waiting-on-condition-4-等待获取监视器-Waiting-on-monitor-entry-暂停：Suspended-对象等待中：Object-wait-或TIMED-WAITING-阻塞：Blocked-停止-Parked"><a href="#1：死锁：Deadlock-2-执行中Runnable-3-等待资源Waiting-on-condition-4-等待获取监视器-Waiting-on-monitor-entry-暂停：Suspended-对象等待中：Object-wait-或TIMED-WAITING-阻塞：Blocked-停止-Parked" class="headerlink" title="1：死锁：Deadlock 2:执行中Runnable 3:等待资源Waiting on condition 4:等待获取监视器 Waiting on monitor entry 暂停：Suspended  对象等待中：Object.wait()或TIMED_WAITING 阻塞：Blocked 停止:Parked"></a>1：死锁：Deadlock 2:执行中Runnable 3:等待资源Waiting on condition 4:等待获取监视器 Waiting on monitor entry 暂停：Suspended  对象等待中：Object.wait()或TIMED_WAITING 阻塞：Blocked 停止:Parked</h3><h3 id="uptime-21-42-47-up-24-days-7-40-2-users-load-average-0-33-0-67-0-46-—-系统已经运行了24天7小时40分钟（在这期间系统没有重启过的吆！users-—-当前有2个用户登录系统）load-average后面的三个数分别是1分钟、5分钟、15分钟的负载情况。load-average数据是每隔5秒钟检查一次活跃的进程数，然后按特定算法计算出的数值。如果这个数除以逻辑CPU的数量，结果高于5的时候就表明系统在超负荷运转了。"><a href="#uptime-21-42-47-up-24-days-7-40-2-users-load-average-0-33-0-67-0-46-—-系统已经运行了24天7小时40分钟（在这期间系统没有重启过的吆！users-—-当前有2个用户登录系统）load-average后面的三个数分别是1分钟、5分钟、15分钟的负载情况。load-average数据是每隔5秒钟检查一次活跃的进程数，然后按特定算法计算出的数值。如果这个数除以逻辑CPU的数量，结果高于5的时候就表明系统在超负荷运转了。" class="headerlink" title="uptime 21:42:47 up 24 days,  7:40,  2 users,  load average: 0.33, 0.67, 0.46 — 系统已经运行了24天7小时40分钟（在这期间系统没有重启过的吆！users — 当前有2个用户登录系统）load average后面的三个数分别是1分钟、5分钟、15分钟的负载情况。load average数据是每隔5秒钟检查一次活跃的进程数，然后按特定算法计算出的数值。如果这个数除以逻辑CPU的数量，结果高于5的时候就表明系统在超负荷运转了。"></a>uptime <strong>21:42:47 up 24 days,  7:40,  2 users,  load average: 0.33, 0.67, 0.46 — 系统已经运行了24天7小时40分钟（在这期间系统没有重启过的吆！users — 当前有2个用户登录系统）load average后面的三个数分别是1分钟、5分钟、15分钟的负载情况。load average数据是每隔5秒钟检查一次活跃的进程数，然后按特定算法计算出的数值。如果这个数除以逻辑CPU的数量，结果高于5的时候就表明系统在超负荷运转了。</strong></h3><h3 id="Tasks-112-total-1-running-111-sleeping-0-stopped-0-zombie-系统现在共有112个进程，其中处于运行中的有1个，111个在休眠（sleep），stoped状态的有0个，zombie状态（僵尸）的有0个"><a href="#Tasks-112-total-1-running-111-sleeping-0-stopped-0-zombie-系统现在共有112个进程，其中处于运行中的有1个，111个在休眠（sleep），stoped状态的有0个，zombie状态（僵尸）的有0个" class="headerlink" title="Tasks: 112 total,   1 running, 111 sleeping,   0 stopped,   0 zombie 系统现在共有112个进程，其中处于运行中的有1个，111个在休眠（sleep），stoped状态的有0个，zombie状态（僵尸）的有0个"></a><strong>Tasks: 112 total,   1 running, 111 sleeping,   0 stopped,   0 zombie</strong> <strong>系统现在共有112个进程，其中处于运行中的有1个，111个在休眠（sleep），stoped状态的有0个，zombie状态（僵尸）的有0个</strong></h3><h3 id="Cpu-s-0-3-us-0-7-sy-0-0-ni-98-8-id-0-0-wa-0-0-hi-0-0-si-0-2-st"><a href="#Cpu-s-0-3-us-0-7-sy-0-0-ni-98-8-id-0-0-wa-0-0-hi-0-0-si-0-2-st" class="headerlink" title="%Cpu(s):  0.3 us,  0.7 sy,  0.0 ni, 98.8 id,  0.0 wa,  0.0 hi,  0.0 si,  0.2 st  **"></a><strong>%Cpu(s):  0.3 us,  0.7 sy,  0.0 ni, 98.8 id,  0.0 wa,  0.0 hi,  0.0 si,  0.2 st</strong>  <em>**</em></h3><p>### </p>
+<ul>
+<li>5.9%us — 用户空间占用CPU的百分比。</li>
+<li>3.4% sy — 内核空间占用CPU的百分比。</li>
+<li>0.0% ni — 改变过优先级的进程占用CPU的百分比</li>
+<li>90.4% id — 空闲CPU百分比</li>
+<li>0.0% wa — IO等待占用CPU的百分比</li>
+<li>0.0% hi — 硬中断（Hardware IRQ）占用CPU的百分比</li>
+<li>0.2% si — 软中断（Software Interrupts）占用CPU的百分比 <h3 id="第四行-内存状态，具体信息如下："><a href="#第四行-内存状态，具体信息如下：" class="headerlink" title="第四行,内存状态，具体信息如下："></a><strong>第四行,内存状态，具体信息如下：</strong></h3></li>
+<li>32949016k total — 物理内存总量（32GB）</li>
+<li>14411180k used — 使用中的内存总量（14GB）</li>
+<li>18537836k free — 空闲内存总量（18GB）</li>
+<li>169884k buffers — 缓存的内存量 （169M）<h3 id="第五行，swap交换分区信息，具体信息说明如下："><a href="#第五行，swap交换分区信息，具体信息说明如下：" class="headerlink" title="第五行，swap交换分区信息，具体信息说明如下："></a><strong>第五行，swap交换分区信息，具体信息说明如下：</strong></h3></li>
+<li>32764556k total — 交换区总量（32GB）</li>
+<li>0k used — 使用的交换区总量（0K）</li>
+<li>32764556k free — 空闲交换区总量（32GB）</li>
+<li>3612636k cached — 缓冲的交换区总量（3.6GB） </li>
+</ul>
+<h2 id="第四行中使用中的内存总量（used）指的是现在系统内核控制的内存数，空闲内存总量（free）是内核还未纳入其管控范围的数量。纳入内核管理的内存不见得都在使用中，还包括过去使用过的现在可以被重复利用的内存，内核并不把这些可被重新使用的内存交还到free中去，因此在linux上free内存会越来越少，但不用为此担心。"><a href="#第四行中使用中的内存总量（used）指的是现在系统内核控制的内存数，空闲内存总量（free）是内核还未纳入其管控范围的数量。纳入内核管理的内存不见得都在使用中，还包括过去使用过的现在可以被重复利用的内存，内核并不把这些可被重新使用的内存交还到free中去，因此在linux上free内存会越来越少，但不用为此担心。" class="headerlink" title="第四行中使用中的内存总量（used）指的是现在系统内核控制的内存数，空闲内存总量（free）是内核还未纳入其管控范围的数量。纳入内核管理的内存不见得都在使用中，还包括过去使用过的现在可以被重复利用的内存，内核并不把这些可被重新使用的内存交还到free中去，因此在linux上free内存会越来越少，但不用为此担心。"></a><strong>第四行中使用中的内存总量（used）指的是现在系统内核控制的内存数，空闲内存总量（free）是内核还未纳入其管控范围的数量。纳入内核管理的内存不见得都在使用中，还包括过去使用过的现在可以被重复利用的内存，内核并不把这些可被重新使用的内存交还到free中去，因此在linux上free内存会越来越少，但不用为此担心。</strong></h2><p><strong>如果出于习惯去计算可用内存数，这里有个近似的计算公式：第四行的free + 第四行的buffers + 第五行的cached，按这个公式此台服务器的可用内存：18537836k +169884k +3612636k = 22GB左右。<br>对于内存监控，在top里我们要时刻监控第五行swap交换分区的used，如果这个数值在不断的变化，说明内核在不断进行内存和swap的数据交换，这是真正的内存不够用了</strong> </p>
+<h2 id="第七行以下：各进程（任务）的状态监控，项目列信息说明如下："><a href="#第七行以下：各进程（任务）的状态监控，项目列信息说明如下：" class="headerlink" title="第七行以下：各进程（任务）的状态监控，项目列信息说明如下："></a><strong>第七行以下：各进程（任务）的状态监控，项目列信息说明如下：</strong></h2><ul>
+<li>PID — 进程id</li>
+<li>USER — 进程所有者</li>
+<li>PR — 进程优先级</li>
+<li>NI — nice值。负值表示高优先级，正值表示低优先级</li>
+<li>VIRT — 进程使用的虚拟内存总量，单位kb。VIRT=SWAP+RES</li>
+<li>RES — 进程使用的、未被换出的物理内存大小，单位kb。RES=CODE+DATA</li>
+<li>SHR — 共享内存大小，单位kb</li>
+<li>S — 进程状态。D=不可中断的睡眠状态 R=运行 S=睡眠 T=跟踪/停止 Z=僵尸进程</li>
+<li>%CPU — 上次更新到现在的CPU时间占用百分比</li>
+<li>%MEM — 进程使用的物理内存百分比</li>
+<li>TIME+ — 进程使用的CPU时间总计，单位1/100秒</li>
+<li>COMMAND — 进程名称（命令名/命令行）** <h3 id="在top基本视图中，按键盘数字“1”，可监控每个逻辑CPU的状况："><a href="#在top基本视图中，按键盘数字“1”，可监控每个逻辑CPU的状况：" class="headerlink" title="在top基本视图中，按键盘数字“1”，可监控每个逻辑CPU的状况："></a>在top基本视图中，按键盘数字“1”，可监控每个逻辑CPU的状况：</h3><h3 id="2-高亮显示当前运行进程，敲击键盘“b”（打开-关闭加亮效果），top的视图变化如下："><a href="#2-高亮显示当前运行进程，敲击键盘“b”（打开-关闭加亮效果），top的视图变化如下：" class="headerlink" title="2.高亮显示当前运行进程，敲击键盘“b”（打开/关闭加亮效果），top的视图变化如下："></a>2.高亮显示当前运行进程，敲击键盘“b”（打开/关闭加亮效果），top的视图变化如下：</h3><h3 id="我们发现进程id为2570的“top”进程被加亮了，top进程就是视图第二行显示的唯一的运行态（runing）的那个进程，可以通过敲击“y”键关闭或打开运行态进程的加亮效果。"><a href="#我们发现进程id为2570的“top”进程被加亮了，top进程就是视图第二行显示的唯一的运行态（runing）的那个进程，可以通过敲击“y”键关闭或打开运行态进程的加亮效果。" class="headerlink" title="我们发现进程id为2570的“top”进程被加亮了，top进程就是视图第二行显示的唯一的运行态（runing）的那个进程，可以通过敲击“y”键关闭或打开运行态进程的加亮效果。"></a><strong>我们发现进程id为2570的“top”进程被加亮了，top进程就是视图第二行显示的唯一的运行态（runing）的那个进程，可以通过敲击“y”键关闭或打开运行态进程的加亮效果。</strong></h3><h3 id="进程字段排序-敲击键盘“x”（打开-关闭排序列的加亮效果）-通过”shift-gt-”或”shift-lt-”可以向右或左改变排序列，下图是按一次”shift-gt-”的效果图-视图现在已经按照-MEM来排序。"><a href="#进程字段排序-敲击键盘“x”（打开-关闭排序列的加亮效果）-通过”shift-gt-”或”shift-lt-”可以向右或左改变排序列，下图是按一次”shift-gt-”的效果图-视图现在已经按照-MEM来排序。" class="headerlink" title="进程字段排序 敲击键盘“x”（打开/关闭排序列的加亮效果） 通过”shift + &gt;”或”shift + &lt;”可以向右或左改变排序列，下图是按一次”shift + &gt;”的效果图,视图现在已经按照%MEM来排序。"></a>进程字段排序 <strong>敲击键盘“x”（打开/关闭排序列的加亮效果）</strong> <strong>通过”shift + &gt;”或”shift + &lt;”可以向右或左改变排序列，下图是按一次”shift + &gt;”的效果图,视图现在已经按照%MEM来排序。</strong></h3><h3 id="查看磁盘-df-m-df-h"><a href="#查看磁盘-df-m-df-h" class="headerlink" title="查看磁盘 df -m   df-h"></a>查看磁盘 <strong>df -m </strong>  <strong>df-h</strong></h3></li>
+</ul>
+<h3 id="虚拟机参数查询：jmap-heap-pid"><a href="#虚拟机参数查询：jmap-heap-pid" class="headerlink" title="虚拟机参数查询：jmap -heap pid"></a>虚拟机参数查询：<strong>jmap -heap pid</strong></h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">Heap Configuration:</span><br><span class="line">   MinHeapFreeRatio         = <span class="number">0</span></span><br><span class="line">   MaxHeapFreeRatio         = <span class="number">100</span></span><br><span class="line">   MaxHeapSize              = <span class="number">2051014656</span> (<span class="number">1956.0</span>MB)</span><br><span class="line">   NewSize                  = <span class="number">42991616</span> (<span class="number">41.0</span>MB)</span><br><span class="line">   MaxNewSize               = <span class="number">683671552</span> (<span class="number">652.0</span>MB)</span><br><span class="line">   OldSize                  = <span class="number">87031808</span> (<span class="number">83.0</span>MB)</span><br><span class="line">   NewRatio                 = <span class="number">2</span></span><br><span class="line">   SurvivorRatio            = <span class="number">8</span></span><br><span class="line">   MetaspaceSize            = <span class="number">21807104</span> (<span class="number">20.796875</span>MB)</span><br><span class="line">   CompressedClassSpaceSize = <span class="number">1073741824</span> (<span class="number">1024.0</span>MB)</span><br><span class="line">   MaxMetaspaceSize         = <span class="number">17592186044415</span> MB</span><br><span class="line">   G1HeapRegionSize         = <span class="number">0</span> (<span class="number">0.0</span>MB)</span><br><span class="line"></span><br><span class="line">Heap Usage:</span><br><span class="line">PS Young Generation</span><br><span class="line">Eden Space:</span><br><span class="line">   capacity = <span class="number">304087040</span> (<span class="number">290.0</span>MB)</span><br><span class="line">   used     = <span class="number">206032904</span> (<span class="number">196.48828887939453</span>MB)</span><br><span class="line">   free     = <span class="number">98054136</span> (<span class="number">93.51171112060547</span>MB)</span><br><span class="line">   <span class="number">67.75458237220501</span>% used</span><br><span class="line">From Space:</span><br><span class="line">   capacity = <span class="number">1048576</span> (<span class="number">1.0</span>MB)</span><br><span class="line">   used     = <span class="number">1024872</span> (<span class="number">0.9773941040039062</span>MB)</span><br><span class="line">   free     = <span class="number">23704</span> (<span class="number">0.02260589599609375</span>MB)</span><br><span class="line">   <span class="number">97.73941040039062</span>% used</span><br><span class="line">To Space:</span><br><span class="line">   capacity = <span class="number">14155776</span> (<span class="number">13.5</span>MB)</span><br><span class="line">   used     = <span class="number">0</span> (<span class="number">0.0</span>MB)</span><br><span class="line">   free     = <span class="number">14155776</span> (<span class="number">13.5</span>MB)</span><br><span class="line">   <span class="number">0.0</span>% used</span><br><span class="line">PS Old Generation</span><br><span class="line">   capacity = <span class="number">139984896</span> (<span class="number">133.5</span>MB)</span><br><span class="line">   used     = <span class="number">56755656</span> (<span class="number">54.12641143798828</span>MB)</span><br><span class="line">   free     = <span class="number">83229240</span> (<span class="number">79.37358856201172</span>MB)</span><br><span class="line">   <span class="number">40.54412841796875</span>% used </span><br><span class="line"></span><br><span class="line">各参数介绍：MaxHeapFreeRatio=<span class="number">100</span> <span class="comment">//对应jvm启动参数 -XX:MaxHeapFreeRatio设置JVM堆最大空闲比率(default 70)  </span></span><br><span class="line"> MaxHeapSize=<span class="number">1956.0</span>MB <span class="comment">//对应jvm启动参数-XX:MaxHeapSize=设置JVM堆的最大大小 </span></span><br><span class="line">NewSize = <span class="number">1.0</span>MB <span class="comment">//对应jvm启动参数-XX:NewSize=设置JVM堆的‘新生代’的默认大小 </span></span><br><span class="line">MaxNewSize =<span class="number">4095</span>MB <span class="comment">//对应jvm启动参数-XX:MaxNewSize=设置JVM堆的‘新生代’的最大大小 </span></span><br><span class="line"> OldSize = <span class="number">4.0</span>MB <span class="comment">//对应jvm启动参数-XX:OldSize=&lt;value&gt;:设置JVM堆的‘老生代’的大小 </span></span><br><span class="line"> NewRatio = <span class="number">8</span><span class="comment">//对应jvm启动参数-XX:NewRatio=:‘新生代’和‘老生代’的大小比率 </span></span><br><span class="line">SurvivorRatio = <span class="number">8</span> <span class="comment">//对应jvm启动参数-XX:SurvivorRatio=设置年轻代中Eden区与Survivor区的大小比值 </span></span><br><span class="line">PermSize= <span class="number">16.0</span>MB <span class="comment">//对应jvm启动参数-XX:PermSize=&lt;value&gt;:设置JVM堆的‘永生代’的初始大小  </span></span><br><span class="line"></span><br><span class="line">MaxPermSize=<span class="number">64.0</span>MB <span class="comment">//对应jvm启动参数-XX:MaxPermSize= :设置JVM堆的‘永生代’的最大大小</span></span><br><span class="line">Heap Usage: <span class="comment">//堆内存分步 </span></span><br><span class="line">PS Young Generation </span><br><span class="line">Eden Space: <span class="comment">//Eden区内存分布</span></span><br><span class="line"></span><br><span class="line">capacity = <span class="number">20381696</span>(<span class="number">19.4375</span>MB) <span class="comment">//Eden区总容量 </span></span><br><span class="line">used = <span class="number">20370032</span> (<span class="number">19.426376342773438</span>MB) <span class="comment">//Eden区已使用 </span></span><br><span class="line"></span><br><span class="line">free = <span class="number">11664</span>(<span class="number">0.0111236572265625</span>MB) <span class="comment">//Eden区剩余容量 </span></span><br><span class="line"></span><br><span class="line"><span class="number">99.94277218147106</span>% used <span class="comment">//Eden区使用比率 </span></span><br><span class="line">From Space: <span class="comment">//其中一个Survivor区的内存分布 </span></span><br><span class="line"></span><br><span class="line">capacity = <span class="number">8519680</span>(<span class="number">8.125</span>MB)</span><br><span class="line"> used = <span class="number">32768</span>(<span class="number">0.03125</span>MB)      </span><br><span class="line">free = <span class="number">8486912</span>(<span class="number">8.09375</span>MB) </span><br><span class="line"></span><br><span class="line"><span class="number">0.38461538461538464</span>% used </span><br><span class="line">To Space: <span class="comment">//另一个Survivor区的内存分布 </span></span><br><span class="line">capacity = <span class="number">9306112</span> (<span class="number">8.875</span>MB) </span><br><span class="line">used = <span class="number">0</span> (<span class="number">0.0</span>MB)</span><br><span class="line"></span><br><span class="line">free = <span class="number">9306112</span>(<span class="number">8.875</span>MB)      <span class="number">0.0</span>% used  </span><br><span class="line"></span><br><span class="line">PS Perm Generation <span class="comment">//当前的 “永生代” 内存分布 </span></span><br><span class="line">capacity = <span class="number">32243712</span> (<span class="number">30.75</span>MB) </span><br><span class="line">used = <span class="number">28918584</span> (<span class="number">27.57891082763672</span>MB) </span><br><span class="line"></span><br><span class="line"><span class="number">1</span> free = <span class="number">3325128</span>(<span class="number">3.1710891723632812</span>MB) </span><br><span class="line"></span><br><span class="line">jmap -histo pid</span><br><span class="line">查看堆内存(histogram)中的对象数量，大小</span><br></pre></td></tr></table></figure>
+</the>
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/11/20/linux性能定位指令/">Linux 查看性能的指令</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 Daniel 的个人博客">Daniel</a></p>
+        <p><span>发布时间:</span>2018年11月20日 - 00时00分</p>
+        <p><span>最后更新:</span>2018年11月29日 - 14时14分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/11/20/linux性能定位指令/" title="Linux 查看性能的指令">https://danielxsm.github.io/2018/11/20/linux性能定位指令/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://danielxsm.github.io/2018/11/20/linux性能定位指令/　　作者: Daniel" title=""></span>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target="_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2018/11/20/linux的基本操作/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          linux 的基本操作指令
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/11/08/反射机制的渗透/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">java 反射机制的渗透</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#linux的问题追踪"><span class="toc-number">1.</span> <span class="toc-text">linux的问题追踪</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#top命令：-top"><span class="toc-number">1.1.</span> <span class="toc-text">top命令： top</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看内存：free-m"><span class="toc-number">1.2.</span> <span class="toc-text">查看内存：free -m</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看日志：-cat-catalina-out-egrep-‘出金-全部出金’-–color-auto"><span class="toc-number">1.3.</span> <span class="toc-text">查看日志： cat catalina.out|egrep ‘出金|全部出金’ –color=auto</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看日志：cat-catalina-out-egrep-‘2017-07-21-03-12-0-0-2-–color-auto’"><span class="toc-number">1.4.</span> <span class="toc-text">查看日志：cat catalina.out|egrep ‘2017-07-21 03:12:0[0-2] –color=auto’</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看端口：-netstat-lntup"><span class="toc-number">1.5.</span> <span class="toc-text">查看端口： netstat -lntup</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看io情况：iostat"><span class="toc-number">1.6.</span> <span class="toc-text">查看io情况：iostat</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#防火墙的设置功能：iptables-nL"><span class="toc-number">1.7.</span> <span class="toc-text">防火墙的设置功能：iptables -nL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看端口信息：lsof-i-端口号"><span class="toc-number">1.8.</span> <span class="toc-text">查看端口信息：lsof -i:  端口号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看虚拟机情况：-jmap-heap-进程"><span class="toc-number">1.9.</span> <span class="toc-text">查看虚拟机情况： jmap -heap 进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进程-查看历史虚拟机-jmap-histo"><span class="toc-number">1.10.</span> <span class="toc-text">进程  查看历史虚拟机 jmap -histo</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#top-查看"><span class="toc-number">1.11.</span> <span class="toc-text">top 查看</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#根据进程查看top-H-p查看某个进程内部线程占用情况分析-pstack显示每个进程的栈跟踪"><span class="toc-number">1.12.</span> <span class="toc-text">根据进程查看top -H -p查看某个进程内部线程占用情况分析: pstack显示每个进程的栈跟踪</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#下载当前的java线程栈-sudo-u-tomcat-jstack-l-384-gt-1-txt"><span class="toc-number">1.13.</span> <span class="toc-text">下载当前的java线程栈 sudo -u tomcat jstack -l 384&gt;/1.txt</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dump-java堆数据-sudo-u-tomcat-jmap-dump-live-format-b-file-dump201612271310-dat-384"><span class="toc-number">1.14.</span> <span class="toc-text">dump java堆数据 sudo -u tomcat jmap -dump:live,format=b,file=/dump201612271310.dat 384</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1：死锁：Deadlock-2-执行中Runnable-3-等待资源Waiting-on-condition-4-等待获取监视器-Waiting-on-monitor-entry-暂停：Suspended-对象等待中：Object-wait-或TIMED-WAITING-阻塞：Blocked-停止-Parked"><span class="toc-number">1.15.</span> <span class="toc-text">1：死锁：Deadlock 2:执行中Runnable 3:等待资源Waiting on condition 4:等待获取监视器 Waiting on monitor entry 暂停：Suspended  对象等待中：Object.wait()或TIMED_WAITING 阻塞：Blocked 停止:Parked</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#uptime-21-42-47-up-24-days-7-40-2-users-load-average-0-33-0-67-0-46-—-系统已经运行了24天7小时40分钟（在这期间系统没有重启过的吆！users-—-当前有2个用户登录系统）load-average后面的三个数分别是1分钟、5分钟、15分钟的负载情况。load-average数据是每隔5秒钟检查一次活跃的进程数，然后按特定算法计算出的数值。如果这个数除以逻辑CPU的数量，结果高于5的时候就表明系统在超负荷运转了。"><span class="toc-number">1.16.</span> <span class="toc-text">uptime 21:42:47 up 24 days,  7:40,  2 users,  load average: 0.33, 0.67, 0.46 — 系统已经运行了24天7小时40分钟（在这期间系统没有重启过的吆！users — 当前有2个用户登录系统）load average后面的三个数分别是1分钟、5分钟、15分钟的负载情况。load average数据是每隔5秒钟检查一次活跃的进程数，然后按特定算法计算出的数值。如果这个数除以逻辑CPU的数量，结果高于5的时候就表明系统在超负荷运转了。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Tasks-112-total-1-running-111-sleeping-0-stopped-0-zombie-系统现在共有112个进程，其中处于运行中的有1个，111个在休眠（sleep），stoped状态的有0个，zombie状态（僵尸）的有0个"><span class="toc-number">1.17.</span> <span class="toc-text">Tasks: 112 total,   1 running, 111 sleeping,   0 stopped,   0 zombie 系统现在共有112个进程，其中处于运行中的有1个，111个在休眠（sleep），stoped状态的有0个，zombie状态（僵尸）的有0个</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Cpu-s-0-3-us-0-7-sy-0-0-ni-98-8-id-0-0-wa-0-0-hi-0-0-si-0-2-st"><span class="toc-number">1.18.</span> <span class="toc-text">%Cpu(s):  0.3 us,  0.7 sy,  0.0 ni, 98.8 id,  0.0 wa,  0.0 hi,  0.0 si,  0.2 st  **</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第四行-内存状态，具体信息如下："><span class="toc-number">1.19.</span> <span class="toc-text">第四行,内存状态，具体信息如下：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第五行，swap交换分区信息，具体信息说明如下："><span class="toc-number">1.20.</span> <span class="toc-text">第五行，swap交换分区信息，具体信息说明如下：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第四行中使用中的内存总量（used）指的是现在系统内核控制的内存数，空闲内存总量（free）是内核还未纳入其管控范围的数量。纳入内核管理的内存不见得都在使用中，还包括过去使用过的现在可以被重复利用的内存，内核并不把这些可被重新使用的内存交还到free中去，因此在linux上free内存会越来越少，但不用为此担心。"><span class="toc-number">2.</span> <span class="toc-text">第四行中使用中的内存总量（used）指的是现在系统内核控制的内存数，空闲内存总量（free）是内核还未纳入其管控范围的数量。纳入内核管理的内存不见得都在使用中，还包括过去使用过的现在可以被重复利用的内存，内核并不把这些可被重新使用的内存交还到free中去，因此在linux上free内存会越来越少，但不用为此担心。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第七行以下：各进程（任务）的状态监控，项目列信息说明如下："><span class="toc-number">3.</span> <span class="toc-text">第七行以下：各进程（任务）的状态监控，项目列信息说明如下：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#在top基本视图中，按键盘数字“1”，可监控每个逻辑CPU的状况："><span class="toc-number">3.1.</span> <span class="toc-text">在top基本视图中，按键盘数字“1”，可监控每个逻辑CPU的状况：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-高亮显示当前运行进程，敲击键盘“b”（打开-关闭加亮效果），top的视图变化如下："><span class="toc-number">3.2.</span> <span class="toc-text">2.高亮显示当前运行进程，敲击键盘“b”（打开/关闭加亮效果），top的视图变化如下：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#我们发现进程id为2570的“top”进程被加亮了，top进程就是视图第二行显示的唯一的运行态（runing）的那个进程，可以通过敲击“y”键关闭或打开运行态进程的加亮效果。"><span class="toc-number">3.3.</span> <span class="toc-text">我们发现进程id为2570的“top”进程被加亮了，top进程就是视图第二行显示的唯一的运行态（runing）的那个进程，可以通过敲击“y”键关闭或打开运行态进程的加亮效果。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进程字段排序-敲击键盘“x”（打开-关闭排序列的加亮效果）-通过”shift-gt-”或”shift-lt-”可以向右或左改变排序列，下图是按一次”shift-gt-”的效果图-视图现在已经按照-MEM来排序。"><span class="toc-number">3.4.</span> <span class="toc-text">进程字段排序 敲击键盘“x”（打开/关闭排序列的加亮效果） 通过”shift + &gt;”或”shift + &lt;”可以向右或左改变排序列，下图是按一次”shift + &gt;”的效果图,视图现在已经按照%MEM来排序。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看磁盘-df-m-df-h"><span class="toc-number">3.5.</span> <span class="toc-text">查看磁盘 df -m   df-h</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#虚拟机参数查询：jmap-heap-pid"><span class="toc-number">3.6.</span> <span class="toc-text">虚拟机参数查询：jmap -heap pid</span></a></li></ol></li></ol>
+</div>
+<style>
+    .left-col .switch-btn {
+        display: none;
+    }
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+<input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+            $(".switch-btn, .switch-area").fadeOut(300);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+            $(".switch-btn, .switch-area").fadeIn(500);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+        $(".switch-btn, .switch-area").show();
+    }
+</script>
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+        <section class="changyan" id="comments">
+  <!--<div id="uyan_frame"></div>-->
+  <div id="SOHUCS"></div>
+  <script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script>
+  <script type="text/javascript">
+    window.changyan.api.config({
+      appid: 'xxxx',
+      conf: 'xxxxxxxxx'
+    });
+  </script>
+</section>
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2018/11/20/linux的基本操作/" title="上一篇: linux 的基本操作指令">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2018/11/08/反射机制的渗透/" title="下一篇: java 反射机制的渗透">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/11/22/算法详解Paxos/">Paxos算法详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/22/maven指令详解/">maven指令详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/22/app消息个推详解/">app 消息个推详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/22/jvm带你走进虚拟机的世界/">java 带你走进虚拟机的世界</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/21/加密详解/">java 基本加密方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/21/jwt详解/">java jwt token鉴权</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/20/linux的基本操作/">linux 的基本操作指令</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/20/linux性能定位指令/">Linux 查看性能的指令</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/08/反射机制的渗透/">java 反射机制的渗透</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/08/代理模式的详解/">java 代理模式的详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/01/zookeeper的使用/">zookeeper的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/29/java的中的线程池/">java 线程池详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/20/队列的分析总结/">java 队列的分析总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/30/数据结构的分析/">java 数据结构的分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/28/spring的重试机制/">Spring的重试机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/28/OkHttpClient的使用/">OkHttpClient的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/java的中各种锁/">java 中的各种锁</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/java的中的多线程/">java 中的多线程</a></li></ul>
+    
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+
+    <script>
+        $(".post-list").addClass("toc-article");
+        // $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2018 Daniel
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">Hexo &nbsp;&nbsp;</a><a href="https://github.com/maochunguang" target="_blank">Blog</a> by tommy
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style="display:none">
+                        <span id="site-visit">极客到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style="display:none">
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 1;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'xxxxx', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?xxxxxx";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>

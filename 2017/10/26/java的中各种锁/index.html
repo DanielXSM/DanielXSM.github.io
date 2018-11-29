@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  <meta name="baidu-site-verification" content="L6Lm9d5Crl">
+  
+  
+  
+  
+  <title>java 中的各种锁 | Daniel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="java 中的各种锁： 欢迎来学习~~">
+<meta name="keywords" content="锁">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java 中的各种锁">
+<meta property="og:url" content="https://danielxsm.github.io/2017/10/26/java的中各种锁/index.html">
+<meta property="og:site_name" content="Daniel">
+<meta property="og:description" content="java 中的各种锁： 欢迎来学习~~">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-11-29T06:15:43.762Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java 中的各种锁">
+<meta name="twitter:description" content="java 中的各种锁： 欢迎来学习~~">
+  
+    <link rel="alternative" href="https://github.com/DanielXSM" title="Daniel" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/avatar1.png">
+  
+  
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet">
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/avatar1.png" class="js-avatar">
+            
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Daniel</a></h1>
+        </hgroup>
+        
+        
+            <form>
+                <input type="text" class="st-default-search-input search" id="local-search-input" placeholder="搜索一下" autocomplete="off">
+            </form>
+            <div id="local-search-result"></div>
+        
+        
+            <script type="text/javascript">
+                (function() {
+                    'use strict';
+                    function getMatchData(keyword, data) {
+                        var matchData = [];
+                        for(var i =0;i<data.length;i++){
+                            if(data[i].title.toLowerCase().indexOf(keyword)>=0) 
+                                matchData.push(data[i])
+                        }
+                        return matchData;
+                    }
+                    var $input = $('#local-search-input');
+                    var $resultContent = $('#local-search-result');
+                    $input.keyup(function(){
+                        $.ajax({
+                            url: '/search.json',
+                            dataType: "json",
+                            success: function( json ) {
+                                var str='<ul class=\"search-result-list\">';                
+                                var keyword = $input.val().trim().toLowerCase();
+                                $resultContent.innerHTML = "";
+                                if ($input.val().trim().length <= 0) {
+                                    $resultContent.empty();
+                                    $('#switch-area').show();
+                                    return;
+                                }
+                                var results = getMatchData(keyword, json);
+                                if(results.length === 0){
+                                    $resultContent.empty();
+                                    $('#switch-area').show();
+                                    return;
+                                } 
+                                for(var i =0; i<results.length; i++){
+                                    str += "<li><a href='"+ results[i].url +"' class='search-result-title'>"+ results[i].title +"</a></li>";
+                                }
+                                str += "</ul>";
+                                $resultContent.empty();
+                                $resultContent.append(str);
+                                $('#switch-area').hide();
+                            }
+                        });
+                    });
+                })();
+            </script>
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/categories/spring/">玩转spring</a></li>
+                        
+                            <li><a href="/categories/linux">Linux指令</a></li>
+                        
+                            <li><a href="/categories/java">java大典</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/DanielXSM" title="github">github</a>
+                            
+                                <a class="fl weibo" target="_blank" href="https://github.com/DanielXSM" title="weibo">weibo</a>
+                            
+                                <a class="fl rss" target="_blank" href="https://github.com/DanielXSM" title="rss">rss</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/jvm/" style="font-size: 10px;">jvm</a> <a href="/tags/linux/" style="font-size: 20px;">linux</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/okhttp/" style="font-size: 10px;">okhttp</a> <a href="/tags/push-message/" style="font-size: 10px;">push message</a> <a href="/tags/spring-标签/" style="font-size: 10px;">spring 标签</a> <a href="/tags/zookeeper/" style="font-size: 10px;">zookeeper</a> <a href="/tags/代理/" style="font-size: 10px;">代理</a> <a href="/tags/反射/" style="font-size: 10px;">反射</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/数据结构/" style="font-size: 10px;">数据结构</a> <a href="/tags/算法/" style="font-size: 20px;">算法</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/鉴权/" style="font-size: 10px;">鉴权</a> <a href="/tags/锁/" style="font-size: 10px;">锁</a> <a href="/tags/队列/" style="font-size: 10px;">队列</a>
+                    </div>
+                </section>
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/DanielXSM">csdn</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/DanielXSM">segmentfault</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/DanielXSM">简书</a>
+                    
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">运动，音乐，舞蹈!</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Daniel</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/avatar1.png" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Daniel</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/categories/spring/">玩转spring</a></li>
+                
+                    <li><a href="/categories/linux">Linux指令</a></li>
+                
+                    <li><a href="/categories/java">java大典</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="github" target="_blank" href="https://github.com/DanielXSM" title="github">github</a>
+                    
+                        <a class="weibo" target="_blank" href="https://github.com/DanielXSM" title="weibo">weibo</a>
+                    
+                        <a class="rss" target="_blank" href="https://github.com/DanielXSM" title="rss">rss</a>
+                    
+                </div>
+            </nav>
+        </header>
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-java的中各种锁" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/10/26/java的中各种锁/" class="article-date">
+      <time datetime="2017-10-25T16:00:00.000Z" itemprop="datePublished">2017-10-26</time>
+</a>
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      java 中的各种锁
+    </h1>
+  
+
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/java/">java</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/锁/">锁</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><strong> java 中的各种锁：</strong> <excerpt in="" index="" |="" 首页摘要=""><br>欢迎来学习~~<br><a id="more"></a></excerpt></p>
+<the rest="" of="" contents="" |="" 余下全文="">
+
+<h1 id="java-的各种锁"><a href="#java-的各种锁" class="headerlink" title="java 的各种锁"></a>java 的各种锁</h1><ul>
+<li>公平锁/非公平锁</li>
+<li>可重入锁</li>
+<li>独享锁/共享锁</li>
+<li>互斥锁/读写锁</li>
+<li>乐观锁/悲观锁</li>
+<li>分段锁</li>
+<li>偏向锁/轻量级锁/重量级锁</li>
+<li>自旋锁</li>
+</ul>
+<h2 id="公平锁-非公平锁"><a href="#公平锁-非公平锁" class="headerlink" title="公平锁/非公平锁"></a>公平锁/非公平锁</h2><p><strong>公平锁是指多个线程按照申请锁的顺序来获取锁。非公平锁是指多个线程获取锁的顺序并不是按照申请锁的顺序，有可能后申请的线程比先申请的线程优先获取锁。有可能，会造成优先级反转或者饥饿现象.对于Java ReentrantLock而言，通过构造函数指定该锁是否是公平锁，默认是非公平锁。非公平锁的优点在于吞吐量比公平锁大。</strong><br><strong>对于Synchronized而言，也是一种非公平锁。由于其并不像ReentrantLock是通过AQS的来实现线程调度，所以并没有任何办法使其变成公平锁。</strong></p>
+<h3 id="Java并发之AQS详解"><a href="#Java并发之AQS详解" class="headerlink" title="Java并发之AQS详解"></a>Java并发之AQS详解</h3><p><strong>谈到并发，不得不谈ReentrantLock；而谈到ReentrantLock，不得不谈AbstractQueuedSynchronizer（AQS）！<br>　　类如其名，抽象的队列式的同步器，AQS定义了一套多线程访问共享资源的同步器框架，许多同步类实现都依赖于它，如常用的ReentrantLock/Semaphore/CountDownLatch等</strong></p>
+<h2 id="可重入锁"><a href="#可重入锁" class="headerlink" title="可重入锁"></a>可重入锁</h2><p><strong>可重入锁又名递归锁，是指在同一个线程在外层方法获取锁的时候，在进入内层方法会自动获取锁。说的有点抽象，下面会有一个代码的示例。<br>对于Java ReentrantLock而言, 他的名字就可以看出是一个可重入锁，其名字是Re entrant Lock重新进入锁。<br>对于Synchronized而言,也是一个可重入锁。可重入锁的一个好处是可一定程度避免死锁。</strong></p>
+<h2 id="独享锁-共享锁"><a href="#独享锁-共享锁" class="headerlink" title="独享锁/共享锁"></a>独享锁/共享锁</h2><p>独享锁是指该锁一次只能被一个线程所持有。<br>共享锁是指该锁可被多个线程所持有。</p>
+<p><strong>对于Java ReentrantLock而言，其是独享锁。但是对于Lock的另一个实现类ReadWriteLock，其读锁是共享锁，其写锁是独享锁。<br>读锁的共享锁可保证并发读是非常高效的，读写，写读 ，写写的过程是互斥的。<br>独享锁与共享锁也是通过AQS来实现的，通过实现不同的方法，来实现独享或者共享。<br>对于Synchronized而言，当然是独享锁。</strong></p>
+<h2 id="互斥锁-读写锁"><a href="#互斥锁-读写锁" class="headerlink" title="互斥锁/读写锁"></a>互斥锁/读写锁</h2><p>上面讲的独享锁/共享锁就是一种广义的说法，互斥锁/读写锁就是具体的实现。<br>互斥锁在Java中的具体实现就是ReentrantLock<br>读写锁在Java中的具体实现就是ReadWriteLock </p>
+<h2 id="乐观锁-悲观锁"><a href="#乐观锁-悲观锁" class="headerlink" title="乐观锁/悲观锁"></a>乐观锁/悲观锁</h2><p>**乐观锁与悲观锁不是指具体的什么类型的锁，而是指看待并发同步的角度。<br>悲观锁认为对于同一个数据的并发操作，一定是会发生修改的，哪怕没有修改，也会认为修改。因此对于同一个数据的并发操作，悲观锁采取加锁的形式。悲观的认为，不加锁的并发操作一定会出问题。<br>乐观锁则认为对于同一个数据的并发操作，是不会发生修改的。在更新数据的时候，会采用尝试更新，不断重新的方式更新数据。乐观的认为，不加锁的并发操作是没有事情的。</p>
+<p>从上面的描述我们可以看出，悲观锁适合写操作非常多的场景，乐观锁适合读操作非常多的场景，不加锁会带来大量的性能提升。<br>悲观锁在Java中的使用，就是利用各种锁。<br>乐观锁在Java中的使用，是无锁编程，常常采用的是CAS算法，典型的例子就是原子类，通过CAS自旋实现原子操作的更新** </p>
+<h2 id="分段锁"><a href="#分段锁" class="headerlink" title="分段锁"></a>分段锁</h2><p><strong>分段锁其实是一种锁的设计，并不是具体的一种锁，对于ConcurrentHashMap而言，其并发的实现就是通过分段锁的形式来实现高效的并发操作。<br>我们以ConcurrentHashMap来说一下分段锁的含义以及设计思想，ConcurrentHashMap中的分段锁称为Segment，它即类似于HashMap（JDK7与JDK8中HashMap的实现）的结构，即内部拥有一个Entry数组，数组中的每个元素又是一个链表；同时又是一个ReentrantLock（Segment继承了ReentrantLock)。<br>当需要put元素的时候，并不是对整个hashmap进行加锁，而是先通过hashcode来知道他要放在那一个分段中，然后对这个分段进行加锁，所以当多线程put的时候，只要不是放在一个分段中，就实现了真正的并行的插入。<br>但是，在统计size的时候，可就是获取hashmap全局信息的时候，就需要获取所有的分段锁才能统计。<br>分段锁的设计目的是细化锁的粒度，当操作不需要更新整个数组的时候，就仅仅针对数组中的一项进行加锁操作。</strong> </p>
+<h2 id="偏向锁-轻量级锁-重量级锁"><a href="#偏向锁-轻量级锁-重量级锁" class="headerlink" title="偏向锁/轻量级锁/重量级锁"></a>偏向锁/轻量级锁/重量级锁</h2><p><strong>这三种锁是指锁的状态，并且是针对Synchronized。在Java 5通过引入锁升级的机制来实现高效Synchronized。这三种锁的状态是通过对象监视器在对象头中的字段来表明的。<br>偏向锁是指一段同步代码一直被一个线程所访问，那么该线程会自动获取锁。降低获取锁的代价。<br>轻量级锁是指当锁是偏向锁的时候，被另一个线程所访问，偏向锁就会升级为轻量级锁，其他线程会通过自旋的形式尝试获取锁，不会阻塞，提高性能。<br>重量级锁是指当锁为轻量级锁的时候，另一个线程虽然是自旋，但自旋不会一直持续下去，当自旋一定次数的时候，还没有获取到锁，就会进入阻塞，该锁膨胀为重量级锁。重量级锁会让其他申请的线程进入阻塞，性能降低。</strong> </p>
+<h2 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h2><p><strong>在Java中，自旋锁是指尝试获取锁的线程不会立即阻塞，而是采用循环的方式去尝试获取锁，这样的好处是减少线程上下文切换的消耗，缺点是循环会消耗CPU</strong></p>
+<hr>
+<h1 id="synchronized的-和Lock-的比较"><a href="#synchronized的-和Lock-的比较" class="headerlink" title="synchronized的 和Lock 的比较"></a>synchronized的 和Lock 的比较</h1><ul>
+<li><p>1）Lock不是Java语言内置的，synchronized是Java语言的关键字，因此是内置特性。Lock是一个类，通过这个类可以实现同步访问；</p>
+</li>
+<li><p>2）Lock和synchronized有一点非常大的不同，采用synchronized不需要用户去手动释放锁，当synchronized方法或者synchronized代码块执行完之后，系统会自动让线程释放对锁的占用；而Lock则必须要用户去手动释放锁，如果没有主动释放锁，就有可能导致出现死锁现象。</p>
+</li>
+<li><p><strong>下面来逐个讲述Lock接口中每个方法的使用，lock()、tryLock()、tryLock(long time, TimeUnit unit)和lockInterruptibly()是用来获取锁的。unLock()方法是用来释放锁的</strong></p>
+</li>
+<li><strong>tryLock()方法是有返回值的，它表示用来尝试获取锁，如果获取成功，则返回true，如果获取失败（即锁已被其他线程获取），则返回false，也就说这个方法无论如何都会立即返回。在拿不到锁时不会一直在那等待。</strong></li>
+<li><strong>tryLock(long time, TimeUnit unit)方法和tryLock()方法是类似的，只不过区别在于这个方法在拿不到锁时会等待一定的时间，在时间期限之内如果还拿不到锁，就返回false。如果一开始拿到锁或者在等待期间内拿到了锁，则返回true。</strong></li>
+<li><strong>注意，当一个线程获取了锁之后，是不会被interrupt()方法中断的。因为本身在前面的文章中讲过单独调用interrupt()方法不能中断正在运行过程中的线程，只能中断阻塞过程中的线程。因此当通过lockInterruptibly()方法获取某个锁时，如果不能获取到，只有进行等待的情况下，是可以响应中断的。而用synchronized修饰的话，当一个线程处于等待某个锁的状态，是无法被中断的，只有一直等待下去</strong> <h1 id="2-ReentrantLock"><a href="#2-ReentrantLock" class="headerlink" title="2.ReentrantLock"></a>2.ReentrantLock</h1></li>
+<li><strong>ReentrantLock，意思是“可重入锁”，关于可重入锁的概念在下一节讲述。ReentrantLock是唯一实现了Lock接口的类，并且ReentrantLock提供了更多的方法；；在ReentrantLock中定义了2个静态内部类，一个是NotFairSync，一个是FairSync，分别用来实现非公平锁和公平锁。</strong></li>
+</ul>
+<p>　　我们可以在创建ReentrantLock对象时，通过以下方式来设置锁的公平性：另外在ReentrantLock类中定义了很多方法，比如：</p>
+<p>　　isFair()        //判断锁是否是公平锁</p>
+<p>　　isLocked()    //判断锁是否被任何线程获取了</p>
+<p>　　isHeldByCurrentThread()   //判断锁是否被当前线程获取了</p>
+<p>　　hasQueuedThreads()   //判断是否有线程在等待该锁 </p>
+<p>　　在ReentrantReadWriteLock中也有类似的方法，同样也可以设置为公平锁和非公平锁。不过要记住，ReentrantReadWriteLock并未实现Lock接口，它实现的是ReadWriteLock接口** </p>
+<h1 id="3-ReadWriteLock"><a href="#3-ReadWriteLock" class="headerlink" title="3.ReadWriteLock"></a>3.ReadWriteLock</h1><p><strong>ReadWriteLock也是一个接口，在它里面只定义了两个方法： Lock readLock();Lock writeLock();一个用来获取读锁，一个用来获取写锁。也就是说将文件的读写操作分开，分成2个锁来分配给线程，从而使得多个线程可以同时进行读操作。下面的ReentrantReadWriteLock实现了ReadWriteLock接口</strong></p>
+<h1 id="4-ReentrantReadWriteLock"><a href="#4-ReentrantReadWriteLock" class="headerlink" title="4.ReentrantReadWriteLock"></a>4.ReentrantReadWriteLock</h1><p>**ReentrantReadWriteLock里面提供了很多丰富的方法，不过最主要的有两个方法：readLock()和writeLock()用来获取读锁和写锁。读写锁将对一个资源（比如文件）的访问分成了2个锁，一个读锁和一个写锁。</p>
+<p>　　正因为有了读写锁，才使得多个线程之间的读操作不会发生冲突。</p>
+<p>　　ReadWriteLock就是读写锁，它是一个接口，ReentrantReadWriteLock实现了这个接口。</p>
+<p>　　可以通过readLock()获取读锁，通过writeLock()获取写锁**</p>
+<h1 id="5-Lock和synchronized的选择"><a href="#5-Lock和synchronized的选择" class="headerlink" title="5.Lock和synchronized的选择"></a>5.Lock和synchronized的选择</h1><hr>
+<ul>
+<li><p>1）Lock是一个接口，而synchronized是Java中的关键字，synchronized是内置的语言实现；</p>
+</li>
+<li><p>2）synchronized在发生异常时，会自动释放线程占有的锁，因此不会导致死锁现象发生；而Lock在发生异常时，如果没有主动通过unLock()去释放锁，则很可能造成死锁现象，因此使用Lock时需要在finally块中释放锁；</p>
+</li>
+<li><p>3）Lock可以让等待锁的线程响应中断，而synchronized却不行，使用synchronized时，等待的线程会一直等待下去，不能够响应中断；</p>
+</li>
+<li><p>4）通过Lock可以知道有没有成功获取锁，而synchronized却无法办到。</p>
+</li>
+<li><p>5）Lock可以提高多个线程进行读操作的效率。<br><strong>lock的使用案例<a href="https://blog.csdn.net/zengmingen/article/details/53260650" target="_blank" rel="noopener">https://blog.csdn.net/zengmingen/article/details/53260650</a></strong></p>
+<h2 id="reentrantLock-的codition"><a href="#reentrantLock-的codition" class="headerlink" title="reentrantLock 的codition"></a>reentrantLock 的codition</h2><p>**生产者-消费者（producer-consumer）问题，也称作有界缓冲区（bounded-buffer）问题，两个进程共享一个公共的固定大小的缓冲区。<br>其中一个是生产者，用于将消息放入缓冲区；另外一个是消费者，用于从缓冲区中取出消息。<br>问题出现在当缓冲区已经满了，而此时生产者还想向其中放入一个新的数据项的情形，其解决方法是让生产者此时进行休眠，等待消费者从缓冲区中取走了一个或者多个数据后再去唤醒它。<br>同样地，当缓冲区已经空了，而消费者还想去取消息，此时也可以让消费者进行休眠，等待生产者放入一个或者多个数据时再唤醒它。</p>
+</li>
+</ul>
+<p>Condition 将 Object 监视器方法（wait、notify 和 notifyAll）分解成截然不同的对象，以便通过将这些对象与任意 Lock 实现组合使用，为每个对象提供多个等待 set （wait-set）。</p>
+<p>其中，Lock 替代了 synchronized 方法和语句的使用，Condition 替代了 Object 监视器方法的使用。</p>
+<p>在Condition中，用await()替换wait()，用signal()替换notify()，用signalAll()替换notifyAll()，传统线程的通信方式，Condition都可以实现，这里注意，Condition是被绑定到Lock上的，要创建一个Lock的Condition必须用newCondition()方法。</p>
+<p>这样看来，Condition和传统的线程通信没什么区别，Condition的强大之处在于它可以为多个线程间建立不同的Condition，**</p>
+<p><strong>Condition的应用：</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.concurrent.locks.Condition;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.locks.Lock;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.locks.ReentrantLock;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">NumberWrapper</span> </span>&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">int</span> value = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span>  </span>&#123;</span><br><span class="line">        <span class="comment">//初始化可重入锁</span></span><br><span class="line">        <span class="keyword">final</span> Lock lock = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//第一个条件当屏幕上输出到3</span></span><br><span class="line">        <span class="keyword">final</span> Condition reachThreeCondition = lock.newCondition();</span><br><span class="line">        <span class="comment">//第二个条件当屏幕上输出到6</span></span><br><span class="line">        <span class="keyword">final</span> Condition reachSixCondition = lock.newCondition();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//NumberWrapper只是为了封装一个数字，一边可以将数字对象共享，并可以设置为final</span></span><br><span class="line">        <span class="comment">//注意这里不要用Integer, Integer 是不可变对象</span></span><br><span class="line">        <span class="keyword">final</span> NumberWrapper num = <span class="keyword">new</span> NumberWrapper();</span><br><span class="line">        <span class="comment">//初始化A线程</span></span><br><span class="line">        Thread threadA = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="comment">//需要先获得锁</span></span><br><span class="line">                lock.lock();</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    System.out.println(<span class="string">"threadA start write"</span>);</span><br><span class="line">                    <span class="comment">//A线程先输出前3个数</span></span><br><span class="line">                    <span class="keyword">while</span> (num.value &lt;= <span class="number">3</span>) &#123;</span><br><span class="line">                        System.out.println(num.value);</span><br><span class="line">                        num.value++;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="comment">//输出到3时要signal，告诉B线程可以开始了</span></span><br><span class="line">                    reachThreeCondition.signal();</span><br><span class="line">                &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                    lock.unlock();</span><br><span class="line">                &#125;</span><br><span class="line">                lock.lock();</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    <span class="comment">//等待输出6的条件</span></span><br><span class="line">                    reachSixCondition.await();</span><br><span class="line">                    System.out.println(<span class="string">"threadA start write"</span>);</span><br><span class="line">                    <span class="comment">//输出剩余数字</span></span><br><span class="line">                    <span class="keyword">while</span> (num.value &lt;= <span class="number">9</span>) &#123;</span><br><span class="line">                        System.out.println(num.value);</span><br><span class="line">                        num.value++;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                    lock.unlock();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        Thread threadB = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    lock.lock();</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">while</span> (num.value &lt;= <span class="number">3</span>) &#123;</span><br><span class="line">                        <span class="comment">//等待3输出完毕的信号</span></span><br><span class="line">                        reachThreeCondition.await();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                    lock.unlock();</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    lock.lock();</span><br><span class="line">                    <span class="comment">//已经收到信号，开始输出4，5，6</span></span><br><span class="line">                    System.out.println(<span class="string">"threadB start write"</span>);</span><br><span class="line">                    <span class="keyword">while</span> (num.value &lt;= <span class="number">6</span>) &#123;</span><br><span class="line">                        System.out.println(num.value);</span><br><span class="line">                        num.value++;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="comment">//4，5，6输出完毕，告诉A线程6输出完了</span></span><br><span class="line">                    reachSixCondition.signal();</span><br><span class="line">                &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                    lock.unlock();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//启动两个线程</span></span><br><span class="line">        threadB.start();</span><br><span class="line">        threadA.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">结果：</span><br><span class="line">threadA start write</span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line">threadB start write</span><br><span class="line"><span class="number">4</span></span><br><span class="line"><span class="number">5</span></span><br><span class="line"><span class="number">6</span></span><br><span class="line">threadA start write</span><br><span class="line"><span class="number">7</span></span><br><span class="line"><span class="number">8</span></span><br><span class="line"><span class="number">9</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//基本思路就是首先要A线程先写1，2，3，这时候B线程应该等待reachThredCondition信号，而当A线程写完3之后就通过signal告诉B线程“我写到3了，该你了”，</span></span><br><span class="line"></span><br><span class="line">这时候A线程要等reachSixCondition信号，同时B线程得到通知，开始写<span class="number">4</span>，<span class="number">5</span>，<span class="number">6</span>，写完<span class="number">4</span>，<span class="number">5</span>，<span class="number">6</span>之后B线程通知A线程reachSixCondition条件成立了，这时候A线程就开始写剩下的<span class="number">7</span>，<span class="number">8</span>，<span class="number">9</span>了。</span><br></pre></td></tr></table></figure></p>
+<h3 id="Condition与Object中的wati-notify-notifyAll区别："><a href="#Condition与Object中的wati-notify-notifyAll区别：" class="headerlink" title="Condition与Object中的wati,notify,notifyAll区别："></a>Condition与Object中的wati,notify,notifyAll区别：</h3><ul>
+<li><p>1.Condition中的await()方法相当于Object的wait()方法，Condition中的signal()方法相当于Object的notify()方法，Condition中的signalAll()相当于Object的notifyAll()方法。<br>不同的是，Object中的这些方法是和同步锁捆绑使用的；而Condition是需要与互斥锁/共享锁捆绑使用的。 </p>
+</li>
+<li><p>Condition它更强大的地方在于：能够更加精细的控制多线程的休眠与唤醒。对于同一个锁，我们可以创建多个Condition，在不同的情况下使用不同的Condition。<br>例如，假如多线程读/写同一个缓冲区：当向缓冲区中写入数据之后，唤醒”读线程”；当从缓冲区读出数据之后，唤醒”写线程”；并且当缓冲区满的时候，”写线程”需要等待；当缓冲区为空时，”读线程”需要等待。<br>如果采用Object类中的wait(),notify(),notifyAll()实现该缓冲区，当向缓冲区写入数据之后需要唤醒”读线程”时，不可能通过notify()或notifyAll()明确的指定唤醒”读线程”，而只能通过notifyAll唤醒所有线程(但是notifyAll无法区分唤醒的线程是读线程，还是写线程)。 但是，通过Condition，就能明确的指定唤醒读线程。</p>
+</li>
+</ul>
+</the>
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2017/10/26/java的中各种锁/">java 中的各种锁</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 Daniel 的个人博客">Daniel</a></p>
+        <p><span>发布时间:</span>2017年10月26日 - 00时00分</p>
+        <p><span>最后更新:</span>2018年11月29日 - 14时15分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/10/26/java的中各种锁/" title="java 中的各种锁">https://danielxsm.github.io/2017/10/26/java的中各种锁/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://danielxsm.github.io/2017/10/26/java的中各种锁/　　作者: Daniel" title=""></span>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target="_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2018/09/28/OkHttpClient的使用/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          OkHttpClient的使用
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/10/26/java的中的多线程/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">java 中的多线程</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#java-的各种锁"><span class="toc-number">1.</span> <span class="toc-text">java 的各种锁</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#公平锁-非公平锁"><span class="toc-number">1.1.</span> <span class="toc-text">公平锁/非公平锁</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Java并发之AQS详解"><span class="toc-number">1.1.1.</span> <span class="toc-text">Java并发之AQS详解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#可重入锁"><span class="toc-number">1.2.</span> <span class="toc-text">可重入锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#独享锁-共享锁"><span class="toc-number">1.3.</span> <span class="toc-text">独享锁/共享锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#互斥锁-读写锁"><span class="toc-number">1.4.</span> <span class="toc-text">互斥锁/读写锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#乐观锁-悲观锁"><span class="toc-number">1.5.</span> <span class="toc-text">乐观锁/悲观锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分段锁"><span class="toc-number">1.6.</span> <span class="toc-text">分段锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#偏向锁-轻量级锁-重量级锁"><span class="toc-number">1.7.</span> <span class="toc-text">偏向锁/轻量级锁/重量级锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自旋锁"><span class="toc-number">1.8.</span> <span class="toc-text">自旋锁</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#synchronized的-和Lock-的比较"><span class="toc-number">2.</span> <span class="toc-text">synchronized的 和Lock 的比较</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-ReentrantLock"><span class="toc-number">3.</span> <span class="toc-text">2.ReentrantLock</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-ReadWriteLock"><span class="toc-number">4.</span> <span class="toc-text">3.ReadWriteLock</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-ReentrantReadWriteLock"><span class="toc-number">5.</span> <span class="toc-text">4.ReentrantReadWriteLock</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-Lock和synchronized的选择"><span class="toc-number">6.</span> <span class="toc-text">5.Lock和synchronized的选择</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#reentrantLock-的codition"><span class="toc-number">6.1.</span> <span class="toc-text">reentrantLock 的codition</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Condition与Object中的wati-notify-notifyAll区别："><span class="toc-number">6.1.1.</span> <span class="toc-text">Condition与Object中的wati,notify,notifyAll区别：</span></a></li></ol></li></ol></li></ol>
+</div>
+<style>
+    .left-col .switch-btn {
+        display: none;
+    }
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+<input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+            $(".switch-btn, .switch-area").fadeOut(300);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+            $(".switch-btn, .switch-area").fadeIn(500);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+        $(".switch-btn, .switch-area").show();
+    }
+</script>
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+        <section class="changyan" id="comments">
+  <!--<div id="uyan_frame"></div>-->
+  <div id="SOHUCS"></div>
+  <script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script>
+  <script type="text/javascript">
+    window.changyan.api.config({
+      appid: 'xxxx',
+      conf: 'xxxxxxxxx'
+    });
+  </script>
+</section>
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2018/09/28/OkHttpClient的使用/" title="上一篇: OkHttpClient的使用">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2017/10/26/java的中的多线程/" title="下一篇: java 中的多线程">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/11/22/算法详解Paxos/">Paxos算法详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/22/maven指令详解/">maven指令详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/22/app消息个推详解/">app 消息个推详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/22/jvm带你走进虚拟机的世界/">java 带你走进虚拟机的世界</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/21/加密详解/">java 基本加密方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/21/jwt详解/">java jwt token鉴权</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/20/linux的基本操作/">linux 的基本操作指令</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/20/linux性能定位指令/">Linux 查看性能的指令</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/08/反射机制的渗透/">java 反射机制的渗透</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/08/代理模式的详解/">java 代理模式的详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/01/zookeeper的使用/">zookeeper的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/29/java的中的线程池/">java 线程池详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/20/队列的分析总结/">java 队列的分析总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/30/数据结构的分析/">java 数据结构的分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/28/spring的重试机制/">Spring的重试机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/28/OkHttpClient的使用/">OkHttpClient的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/java的中各种锁/">java 中的各种锁</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/java的中的多线程/">java 中的多线程</a></li></ul>
+    
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+
+    <script>
+        $(".post-list").addClass("toc-article");
+        // $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2018 Daniel
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">Hexo &nbsp;&nbsp;</a><a href="https://github.com/maochunguang" target="_blank">Blog</a> by tommy
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style="display:none">
+                        <span id="site-visit">极客到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style="display:none">
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 1;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'xxxxx', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?xxxxxx";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>

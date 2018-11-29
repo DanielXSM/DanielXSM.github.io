@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  <meta name="baidu-site-verification" content="L6Lm9d5Crl">
+  
+  
+  
+  
+  <title>java 数据结构的分析 | Daniel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="java 数据结构的分析： 数据结构~~">
+<meta name="keywords" content="数据结构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java 数据结构的分析">
+<meta property="og:url" content="https://danielxsm.github.io/2018/09/30/数据结构的分析/index.html">
+<meta property="og:site_name" content="Daniel">
+<meta property="og:description" content="java 数据结构的分析： 数据结构~~">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-11-29T06:09:52.390Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java 数据结构的分析">
+<meta name="twitter:description" content="java 数据结构的分析： 数据结构~~">
+  
+    <link rel="alternative" href="https://github.com/DanielXSM" title="Daniel" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/avatar1.png">
+  
+  
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet">
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/avatar1.png" class="js-avatar">
+            
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Daniel</a></h1>
+        </hgroup>
+        
+        
+            <form>
+                <input type="text" class="st-default-search-input search" id="local-search-input" placeholder="搜索一下" autocomplete="off">
+            </form>
+            <div id="local-search-result"></div>
+        
+        
+            <script type="text/javascript">
+                (function() {
+                    'use strict';
+                    function getMatchData(keyword, data) {
+                        var matchData = [];
+                        for(var i =0;i<data.length;i++){
+                            if(data[i].title.toLowerCase().indexOf(keyword)>=0) 
+                                matchData.push(data[i])
+                        }
+                        return matchData;
+                    }
+                    var $input = $('#local-search-input');
+                    var $resultContent = $('#local-search-result');
+                    $input.keyup(function(){
+                        $.ajax({
+                            url: '/search.json',
+                            dataType: "json",
+                            success: function( json ) {
+                                var str='<ul class=\"search-result-list\">';                
+                                var keyword = $input.val().trim().toLowerCase();
+                                $resultContent.innerHTML = "";
+                                if ($input.val().trim().length <= 0) {
+                                    $resultContent.empty();
+                                    $('#switch-area').show();
+                                    return;
+                                }
+                                var results = getMatchData(keyword, json);
+                                if(results.length === 0){
+                                    $resultContent.empty();
+                                    $('#switch-area').show();
+                                    return;
+                                } 
+                                for(var i =0; i<results.length; i++){
+                                    str += "<li><a href='"+ results[i].url +"' class='search-result-title'>"+ results[i].title +"</a></li>";
+                                }
+                                str += "</ul>";
+                                $resultContent.empty();
+                                $resultContent.append(str);
+                                $('#switch-area').hide();
+                            }
+                        });
+                    });
+                })();
+            </script>
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/categories/spring/">玩转spring</a></li>
+                        
+                            <li><a href="/categories/linux">Linux指令</a></li>
+                        
+                            <li><a href="/categories/java">java大典</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/DanielXSM" title="github">github</a>
+                            
+                                <a class="fl weibo" target="_blank" href="https://github.com/DanielXSM" title="weibo">weibo</a>
+                            
+                                <a class="fl rss" target="_blank" href="https://github.com/DanielXSM" title="rss">rss</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/jvm/" style="font-size: 10px;">jvm</a> <a href="/tags/linux/" style="font-size: 20px;">linux</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/okhttp/" style="font-size: 10px;">okhttp</a> <a href="/tags/push-message/" style="font-size: 10px;">push message</a> <a href="/tags/spring-标签/" style="font-size: 10px;">spring 标签</a> <a href="/tags/zookeeper/" style="font-size: 10px;">zookeeper</a> <a href="/tags/代理/" style="font-size: 10px;">代理</a> <a href="/tags/反射/" style="font-size: 10px;">反射</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/数据结构/" style="font-size: 10px;">数据结构</a> <a href="/tags/算法/" style="font-size: 20px;">算法</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/鉴权/" style="font-size: 10px;">鉴权</a> <a href="/tags/锁/" style="font-size: 10px;">锁</a> <a href="/tags/队列/" style="font-size: 10px;">队列</a>
+                    </div>
+                </section>
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/DanielXSM">csdn</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/DanielXSM">segmentfault</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/DanielXSM">简书</a>
+                    
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">运动，音乐，舞蹈!</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Daniel</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/avatar1.png" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Daniel</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/categories/spring/">玩转spring</a></li>
+                
+                    <li><a href="/categories/linux">Linux指令</a></li>
+                
+                    <li><a href="/categories/java">java大典</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="github" target="_blank" href="https://github.com/DanielXSM" title="github">github</a>
+                    
+                        <a class="weibo" target="_blank" href="https://github.com/DanielXSM" title="weibo">weibo</a>
+                    
+                        <a class="rss" target="_blank" href="https://github.com/DanielXSM" title="rss">rss</a>
+                    
+                </div>
+            </nav>
+        </header>
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-数据结构的分析" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/09/30/数据结构的分析/" class="article-date">
+      <time datetime="2018-09-29T16:00:00.000Z" itemprop="datePublished">2018-09-30</time>
+</a>
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      java 数据结构的分析
+    </h1>
+  
+
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/数据结构/">数据结构</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据结构/">数据结构</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><strong> java 数据结构的分析：</strong> <excerpt in="" index="" |="" 首页摘要=""><br>数据结构~~<br><a id="more"></a></excerpt></p>
+<the rest="" of="" contents="" |="" 余下全文="">
+
+<h1 id="数据结构的分析"><a href="#数据结构的分析" class="headerlink" title="数据结构的分析"></a>数据结构的分析</h1><h4 id="可以使用Collections-synchronized-方法创建同步的集合类对象"><a href="#可以使用Collections-synchronized-方法创建同步的集合类对象" class="headerlink" title="可以使用Collections.synchronized*方法创建同步的集合类对象"></a>可以使用Collections.synchronized*方法创建同步的集合类对象</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List synList = Collections.synchronizedList(<span class="keyword">new</span> ArrayList())</span><br></pre></td></tr></table></figure>
+<h2 id="java-util-包中三个重要的接口"><a href="#java-util-包中三个重要的接口" class="headerlink" title="java.util 包中三个重要的接口"></a>java.util 包中三个重要的接口</h2><ul>
+<li><strong>List</strong>（列表）<ul>
+<li><strong>LinkedList</strong>:LinkedList是链表，略懂数据结构就知道其实现原理了。链表随机位置插入、删除数据时比线性表快，遍历比线性表慢。<br>双向链表原理图：</li>
+<li><strong>Vector</strong>:是同步的，线程安全的，速度慢</li>
+<li><strong>ArrayList</strong>: 是非同步的，线程不安全的，速度快，遍历查询快。</li>
+</ul>
+</li>
+<li><strong>Set</strong>（保证集合中元素唯一）Set结构其实就是维护一个Map来存储数据的，利用Map结构key值唯一性<ul>
+<li>HashSet</li>
+</ul>
+</li>
+<li><strong>Map</strong>（维护多个key-value键值对，保证key唯一）<ul>
+<li><strong>TreeMap</strong>：TreeMap是由Entry对象为节点组成的一颗红黑树，put到TreeMap的数据默认按key的自然顺序排序，new TreeMap时传入Comparator自定义排序</li>
+<li><strong>HashMap</strong>：HashMap结构的实现原理是将put进来的key-value封装成一个Entry对象存储到一个Entry数组中，位置（数组下标）由key的哈希值与数组长度计算而来。如果数组当前下标已有值，则将数组当前下标的值指向新添加的Entry对象。</li>
+<li><strong>LinkedHashMap</strong>:通过维护一个运行于所有条目的双向链表，LinkedHashMap保证了元素迭代的顺序。该迭代顺序可以是插入顺序或者是访问顺序。LinkedHashMap可以认为是HashMap+LinkedList，即它既使用HashMap操作数据结构，又使用LinkedList维护插入元素的先后顺序。</li>
+<li><strong>ConcurrentHashMap</strong> <strong>锁分段技术</strong> Segment是一种可重入锁ReentrantLock，在ConcurrentHashMap里扮演锁的角色，HashEntry则用于存储键值对数据。一个ConcurrentHashMap里包含一个Segment数组，Segment的结构和HashMap类似，是一种数组和链表结构， 一个Segment里包含一个HashEntry数组，每个HashEntry是一个链表结构的元素， 每个Segment守护者一个HashEntry数组里的元素,当对HashEntry数组的数据进行修改时，必须首先获得它对应的Segment锁。</li>
+<li><strong>HashTable</strong> HashMap 支持key=null 但是 Hashtable 不支持 key =null<h2 id="new-hashMap-时的初始化容量大小"><a href="#new-hashMap-时的初始化容量大小" class="headerlink" title="new hashMap 时的初始化容量大小"></a>new hashMap 时的初始化容量大小</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">如果我们通过expectedSize / <span class="number">0.75F</span> + <span class="number">1.0F</span>计算，<span class="number">7</span>/<span class="number">0.75</span> + <span class="number">1</span> = <span class="number">10</span> ,<span class="number">10</span>经过Jdk处理之后，会被设置成<span class="number">16</span>，这就大大的减少了扩容的几率。</span><br><span class="line"></span><br><span class="line">当HashMap内部维护的哈希表的容量达到<span class="number">75</span>%时（默认情况下），会触发rehash，而rehash的过程是比较耗费时间的。所以初始化容量要设置成expectedSize/<span class="number">0.75</span> + <span class="number">1</span>的话，可以有效的减少冲突也可以减小误差。</span><br><span class="line"></span><br><span class="line">所以，我可以认为，当我们明确知道HashMap中元素的个数的时候，把默认容量设置成expectedSize / <span class="number">0.75F</span> + <span class="number">1.0F</span> 是一个在性能上相对好的选择，但是，同时也会牺牲些内存。</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="hashMap-和hashTable-的区别"><a href="#hashMap-和hashTable-的区别" class="headerlink" title="hashMap 和hashTable 的区别"></a>hashMap 和hashTable 的区别</h2><ul>
+<li>HashMap几乎可以等价于Hashtable，除了HashMap是非synchronized的，并可以接受null(HashMap可以接受为null的键值(key)和值(value)，而Hashtable则不行)。</li>
+<li>HashMap是非synchronized，而Hashtable是synchronized，这意味着Hashtable是线程安全的，多个线程可以共享一个Hashtable；而如果没有正确的同步的话，多个线程是不能共享HashMap的。Java 5提供了ConcurrentHashMap，它是HashTable的替代，比HashTable的扩展性更好。</li>
+<li>另一个区别是HashMap的迭代器(Iterator)是fail-fast迭代器，而Hashtable的enumerator迭代器不是fail-fast的。所以当有其它线程改变了HashMap的结构（增加或者移除元素），将会抛出ConcurrentModificationException，但迭代器本身的remove()方法移除元素则不会抛出ConcurrentModificationException异常。但这并不是一个一定发生的行为，要看JVM。这条同样也是Enumeration和Iterator的区别。</li>
+<li>由于Hashtable是线程安全的也是synchronized，所以在单线程环境下它比HashMap要慢。如果你不需要同步，只需要单一线程，那么使用HashMap性能要好过Hashtable。</li>
+<li>HashMap不能保证随着时间的推移Map中的元素次序是不变的。</li>
+</ul>
+</the>
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/09/30/数据结构的分析/">java 数据结构的分析</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 Daniel 的个人博客">Daniel</a></p>
+        <p><span>发布时间:</span>2018年09月30日 - 00时00分</p>
+        <p><span>最后更新:</span>2018年11月29日 - 14时09分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/09/30/数据结构的分析/" title="java 数据结构的分析">https://danielxsm.github.io/2018/09/30/数据结构的分析/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://danielxsm.github.io/2018/09/30/数据结构的分析/　　作者: Daniel" title=""></span>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target="_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2018/10/20/队列的分析总结/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          java 队列的分析总结
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/09/28/spring的重试机制/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Spring的重试机制</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#数据结构的分析"><span class="toc-number">1.</span> <span class="toc-text">数据结构的分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#可以使用Collections-synchronized-方法创建同步的集合类对象"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">可以使用Collections.synchronized*方法创建同步的集合类对象</span></a></li></ol></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#java-util-包中三个重要的接口"><span class="toc-number">1.1.</span> <span class="toc-text">java.util 包中三个重要的接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#new-hashMap-时的初始化容量大小"><span class="toc-number">1.2.</span> <span class="toc-text">new hashMap 时的初始化容量大小</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hashMap-和hashTable-的区别"><span class="toc-number">1.3.</span> <span class="toc-text">hashMap 和hashTable 的区别</span></a></li>
+</div>
+<style>
+    .left-col .switch-btn {
+        display: none;
+    }
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+<input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+            $(".switch-btn, .switch-area").fadeOut(300);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+            $(".switch-btn, .switch-area").fadeIn(500);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+        $(".switch-btn, .switch-area").show();
+    }
+</script>
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+        <section class="changyan" id="comments">
+  <!--<div id="uyan_frame"></div>-->
+  <div id="SOHUCS"></div>
+  <script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script>
+  <script type="text/javascript">
+    window.changyan.api.config({
+      appid: 'xxxx',
+      conf: 'xxxxxxxxx'
+    });
+  </script>
+</section>
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2018/10/20/队列的分析总结/" title="上一篇: java 队列的分析总结">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2018/09/28/spring的重试机制/" title="下一篇: Spring的重试机制">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/11/22/算法详解Paxos/">Paxos算法详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/22/maven指令详解/">maven指令详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/22/app消息个推详解/">app 消息个推详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/22/jvm带你走进虚拟机的世界/">java 带你走进虚拟机的世界</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/21/加密详解/">java 基本加密方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/21/jwt详解/">java jwt token鉴权</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/20/linux的基本操作/">linux 的基本操作指令</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/20/linux性能定位指令/">Linux 查看性能的指令</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/08/反射机制的渗透/">java 反射机制的渗透</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/08/代理模式的详解/">java 代理模式的详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/01/zookeeper的使用/">zookeeper的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/29/java的中的线程池/">java 线程池详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/20/队列的分析总结/">java 队列的分析总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/30/数据结构的分析/">java 数据结构的分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/28/spring的重试机制/">Spring的重试机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/28/OkHttpClient的使用/">OkHttpClient的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/java的中各种锁/">java 中的各种锁</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/java的中的多线程/">java 中的多线程</a></li></ul>
+    
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+
+    <script>
+        $(".post-list").addClass("toc-article");
+        // $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2018 Daniel
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">Hexo &nbsp;&nbsp;</a><a href="https://github.com/maochunguang" target="_blank">Blog</a> by tommy
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style="display:none">
+                        <span id="site-visit">极客到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style="display:none">
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 1;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'xxxxx', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?xxxxxx";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>

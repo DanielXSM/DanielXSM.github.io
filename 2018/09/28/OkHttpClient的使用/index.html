@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  <meta name="baidu-site-verification" content="L6Lm9d5Crl">
+  
+  
+  
+  
+  <title>OkHttpClient的使用 | Daniel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="OkHttpClient的使用： 欢迎来学习~~">
+<meta name="keywords" content="okhttp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OkHttpClient的使用">
+<meta property="og:url" content="https://danielxsm.github.io/2018/09/28/OkHttpClient的使用/index.html">
+<meta property="og:site_name" content="Daniel">
+<meta property="og:description" content="OkHttpClient的使用： 欢迎来学习~~">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-11-29T06:13:49.546Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="OkHttpClient的使用">
+<meta name="twitter:description" content="OkHttpClient的使用： 欢迎来学习~~">
+  
+    <link rel="alternative" href="https://github.com/DanielXSM" title="Daniel" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/avatar1.png">
+  
+  
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet">
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/avatar1.png" class="js-avatar">
+            
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Daniel</a></h1>
+        </hgroup>
+        
+        
+            <form>
+                <input type="text" class="st-default-search-input search" id="local-search-input" placeholder="搜索一下" autocomplete="off">
+            </form>
+            <div id="local-search-result"></div>
+        
+        
+            <script type="text/javascript">
+                (function() {
+                    'use strict';
+                    function getMatchData(keyword, data) {
+                        var matchData = [];
+                        for(var i =0;i<data.length;i++){
+                            if(data[i].title.toLowerCase().indexOf(keyword)>=0) 
+                                matchData.push(data[i])
+                        }
+                        return matchData;
+                    }
+                    var $input = $('#local-search-input');
+                    var $resultContent = $('#local-search-result');
+                    $input.keyup(function(){
+                        $.ajax({
+                            url: '/search.json',
+                            dataType: "json",
+                            success: function( json ) {
+                                var str='<ul class=\"search-result-list\">';                
+                                var keyword = $input.val().trim().toLowerCase();
+                                $resultContent.innerHTML = "";
+                                if ($input.val().trim().length <= 0) {
+                                    $resultContent.empty();
+                                    $('#switch-area').show();
+                                    return;
+                                }
+                                var results = getMatchData(keyword, json);
+                                if(results.length === 0){
+                                    $resultContent.empty();
+                                    $('#switch-area').show();
+                                    return;
+                                } 
+                                for(var i =0; i<results.length; i++){
+                                    str += "<li><a href='"+ results[i].url +"' class='search-result-title'>"+ results[i].title +"</a></li>";
+                                }
+                                str += "</ul>";
+                                $resultContent.empty();
+                                $resultContent.append(str);
+                                $('#switch-area').hide();
+                            }
+                        });
+                    });
+                })();
+            </script>
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/categories/spring/">玩转spring</a></li>
+                        
+                            <li><a href="/categories/linux">Linux指令</a></li>
+                        
+                            <li><a href="/categories/java">java大典</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/DanielXSM" title="github">github</a>
+                            
+                                <a class="fl weibo" target="_blank" href="https://github.com/DanielXSM" title="weibo">weibo</a>
+                            
+                                <a class="fl rss" target="_blank" href="https://github.com/DanielXSM" title="rss">rss</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/jvm/" style="font-size: 10px;">jvm</a> <a href="/tags/linux/" style="font-size: 20px;">linux</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/okhttp/" style="font-size: 10px;">okhttp</a> <a href="/tags/push-message/" style="font-size: 10px;">push message</a> <a href="/tags/spring-标签/" style="font-size: 10px;">spring 标签</a> <a href="/tags/zookeeper/" style="font-size: 10px;">zookeeper</a> <a href="/tags/代理/" style="font-size: 10px;">代理</a> <a href="/tags/反射/" style="font-size: 10px;">反射</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/数据结构/" style="font-size: 10px;">数据结构</a> <a href="/tags/算法/" style="font-size: 20px;">算法</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/鉴权/" style="font-size: 10px;">鉴权</a> <a href="/tags/锁/" style="font-size: 10px;">锁</a> <a href="/tags/队列/" style="font-size: 10px;">队列</a>
+                    </div>
+                </section>
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/DanielXSM">csdn</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/DanielXSM">segmentfault</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/DanielXSM">简书</a>
+                    
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">运动，音乐，舞蹈!</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Daniel</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/avatar1.png" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Daniel</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/categories/spring/">玩转spring</a></li>
+                
+                    <li><a href="/categories/linux">Linux指令</a></li>
+                
+                    <li><a href="/categories/java">java大典</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="github" target="_blank" href="https://github.com/DanielXSM" title="github">github</a>
+                    
+                        <a class="weibo" target="_blank" href="https://github.com/DanielXSM" title="weibo">weibo</a>
+                    
+                        <a class="rss" target="_blank" href="https://github.com/DanielXSM" title="rss">rss</a>
+                    
+                </div>
+            </nav>
+        </header>
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-OkHttpClient的使用" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/09/28/OkHttpClient的使用/" class="article-date">
+      <time datetime="2018-09-27T16:00:00.000Z" itemprop="datePublished">2018-09-28</time>
+</a>
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      OkHttpClient的使用
+    </h1>
+  
+
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/http/">http</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/okhttp/">okhttp</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><strong> OkHttpClient的使用：</strong> <excerpt in="" index="" |="" 首页摘要=""><br>欢迎来学习~~<br><a id="more"></a></excerpt></p>
+<the rest="" of="" contents="" |="" 余下全文="">
+
+<h2 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h2><h3 id="OkHttpClient-的简单配置"><a href="#OkHttpClient-的简单配置" class="headerlink" title="OkHttpClient 的简单配置"></a>OkHttpClient 的简单配置</h3><h2 id="一，Retrofit-的使用"><a href="#一，Retrofit-的使用" class="headerlink" title="一，Retrofit 的使用"></a>一，Retrofit 的使用</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CallApi</span></span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> &lt;T&gt; <span class="function">T <span class="title">createNetConnect</span><span class="params">(<span class="keyword">final</span> Class&lt;T&gt; class)</span></span>&#123;</span><br><span class="line">  String baseUrl = <span class="string">"http://127.0.0.1:8888"</span>;</span><br><span class="line"></span><br><span class="line">  OkHttpClient okHttpClient = <span class="keyword">new</span> OkHttpClient.Builder().addInterceptor(<span class="keyword">new</span> </span><br><span class="line">  HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)).build();</span><br><span class="line"></span><br><span class="line">    Retrofit retrofit = <span class="keyword">new</span> Retrofit.Builder()</span><br><span class="line">            .client(okHttpClient)</span><br><span class="line">            .baseUrl(baseUrl)</span><br><span class="line">            .addConverterFactory(GsonConverterFactory.create())</span><br><span class="line">            .build();</span><br><span class="line"></span><br><span class="line">   <span class="keyword">return</span> retrofit.create(<span class="class"><span class="keyword">class</span>)</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="OkHttpClient-需要请求的地址的url接口，以及定义的反参类型"><a href="#OkHttpClient-需要请求的地址的url接口，以及定义的反参类型" class="headerlink" title="OkHttpClient 需要请求的地址的url接口，以及定义的反参类型"></a>OkHttpClient 需要请求的地址的url接口，以及定义的反参类型</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//url 接口</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">HttpApi</span></span>&#123;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@GET</span>(value = <span class="string">"/net/test"</span>)</span><br><span class="line">    Call&lt;Map&lt;String, Object&gt;&gt; getUrlInformation();</span><br><span class="line"></span><br><span class="line">   <span class="meta">@POST</span>(value = <span class="string">"/net/test/post"</span>)</span><br><span class="line">    Call&lt;Map&lt;String, Object&gt;&gt; getUrlInformationPost();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="初始化-以及调试测试"><a href="#初始化-以及调试测试" class="headerlink" title="初始化,以及调试测试"></a>初始化,以及调试测试</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">test</span></span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> CallApi call;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> HttpApi httpApi;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//初始化</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> HttpApi <span class="title">getHttpApi</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(httpApi== <span class="keyword">null</span>)&#123;</span><br><span class="line">            httpApi= call.createNetConnect(HttpApi .class);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> httpApi;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//调用</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">justTest</span><span class="params">()</span></span>&#123;</span><br><span class="line">    Call&lt;Map&lt;String, Object&gt;&gt; call =getHttpApi().getUrlInformation();</span><br><span class="line">     Map&lt;String, Object&gt; body=call.execute().body();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">## get请求的使用方法</span><br><span class="line"></span><br><span class="line">### 1，get的同步请求</span><br><span class="line">```java</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getDatasync</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                OkHttpClient client = <span class="keyword">new</span> OkHttpClient();<span class="comment">//创建OkHttpClient对象</span></span><br><span class="line">                Request request = <span class="keyword">new</span> Request.Builder()</span><br><span class="line">                        .url(<span class="string">"http://www.baidu.com"</span>)<span class="comment">//请求接口。如果需要传参拼接到接口后面。</span></span><br><span class="line">                        .build();<span class="comment">//创建Request 对象</span></span><br><span class="line">                Response response = <span class="keyword">null</span>;</span><br><span class="line">                response = client.newCall(request).execute();<span class="comment">//得到Response 对象</span></span><br><span class="line">                <span class="keyword">if</span> (response.isSuccessful()) &#123;</span><br><span class="line">                Log.d(<span class="string">"kwwl"</span>,<span class="string">"response.code()=="</span>+response.code());</span><br><span class="line">                Log.d(<span class="string">"kwwl"</span>,<span class="string">"response.message()=="</span>+response.message());</span><br><span class="line">                Log.d(<span class="string">"kwwl"</span>,<span class="string">"res=="</span>+response.body().string());</span><br><span class="line">                <span class="comment">//此时的代码执行在子线程，修改UI的操作请使用handler跳转到UI线程。</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;).start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2，get的异步请求"><a href="#2，get的异步请求" class="headerlink" title="2，get的异步请求"></a>2，get的异步请求</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">getDataAsync</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    OkHttpClient client = <span class="keyword">new</span> OkHttpClient();</span><br><span class="line">    Request request = <span class="keyword">new</span> Request.Builder()</span><br><span class="line">            .url(<span class="string">"http://www.baidu.com"</span>)</span><br><span class="line">            .build();</span><br><span class="line">    client.newCall(request).enqueue(<span class="keyword">new</span> Callback() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onFailure</span><span class="params">(Call call, IOException e)</span> </span>&#123;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onResponse</span><span class="params">(Call call, Response response)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(response.isSuccessful())&#123;<span class="comment">//回调的方法执行在子线程。</span></span><br><span class="line">                Log.d(<span class="string">"kwwl"</span>,<span class="string">"获取数据成功了"</span>);</span><br><span class="line">                Log.d(<span class="string">"kwwl"</span>,<span class="string">"response.code()=="</span>+response.code());</span><br><span class="line">                Log.d(<span class="string">"kwwl"</span>,<span class="string">"response.body().string()=="</span>+response.body().string());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="三，post请求的使用方法"><a href="#三，post请求的使用方法" class="headerlink" title="三，post请求的使用方法"></a>三，post请求的使用方法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">postDataWithParame</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    OkHttpClient client = <span class="keyword">new</span> OkHttpClient();<span class="comment">//创建OkHttpClient对象。</span></span><br><span class="line">    FormBody.Builder formBody = <span class="keyword">new</span> FormBody.Builder();<span class="comment">//创建表单请求体</span></span><br><span class="line">    formBody.add(<span class="string">"username"</span>,<span class="string">"zhangsan"</span>);<span class="comment">//传递键值对参数</span></span><br><span class="line">    Request request = <span class="keyword">new</span> Request.Builder()<span class="comment">//创建Request 对象。</span></span><br><span class="line">            .url(<span class="string">"http://www.baidu.com"</span>)</span><br><span class="line">            .post(formBody.build())<span class="comment">//传递请求体</span></span><br><span class="line">            .build();</span><br><span class="line">    client.newCall(request).enqueue(<span class="keyword">new</span> Callback() &#123;。。。&#125;);<span class="comment">//回调方法的使用与get异步请求相同，此时略。</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="2，使用RequestBody传递Json或File对象"><a href="#2，使用RequestBody传递Json或File对象" class="headerlink" title="2，使用RequestBody传递Json或File对象"></a>2，使用RequestBody传递Json或File对象</h2><h3 id="上传json对象使用示例如下："><a href="#上传json对象使用示例如下：" class="headerlink" title="上传json对象使用示例如下："></a>上传json对象使用示例如下：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">OkHttpClient client = <span class="keyword">new</span> OkHttpClient();<span class="comment">//创建OkHttpClient对象。</span></span><br><span class="line">MediaType JSON = MediaType.parse(<span class="string">"application/json; charset=utf-8"</span>);<span class="comment">//数据类型为json格式，</span></span><br><span class="line">String jsonStr = <span class="string">"&#123;\"username\":\"lisi\",\"nickname\":\"李四\"&#125;"</span>;<span class="comment">//json数据.</span></span><br><span class="line">RequestBody body = RequestBody.create(JSON, josnStr);</span><br><span class="line">Request request = <span class="keyword">new</span> Request.Builder()</span><br><span class="line">        .url(<span class="string">"http://www.baidu.com"</span>)</span><br><span class="line">        .post(body)</span><br><span class="line">        .build();</span><br><span class="line">client.newCall(request).enqueue(<span class="keyword">new</span> Callback() &#123;。。。&#125;);<span class="comment">//此处省略回调方法。</span></span><br></pre></td></tr></table></figure>
+<h3 id="上传File对象使用示例如下："><a href="#上传File对象使用示例如下：" class="headerlink" title="上传File对象使用示例如下："></a>上传File对象使用示例如下：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">OkHttpClient client = <span class="keyword">new</span> OkHttpClient();<span class="comment">//创建OkHttpClient对象。</span></span><br><span class="line">MediaType fileType = MediaType.parse(<span class="string">"File/*"</span>);<span class="comment">//数据类型为json格式，</span></span><br><span class="line">File file = <span class="keyword">new</span> File(<span class="string">"path"</span>);<span class="comment">//file对象.</span></span><br><span class="line">RequestBody body = RequestBody.create(fileType , file );</span><br><span class="line">Request request = <span class="keyword">new</span> Request.Builder()</span><br><span class="line">        .url(<span class="string">"http://www.baidu.com"</span>)</span><br><span class="line">        .post(body)</span><br><span class="line">        .build();</span><br><span class="line">client.newCall(request).enqueue(<span class="keyword">new</span> Callback() &#123;。。。&#125;);<span class="comment">//此处省略回调方法。</span></span><br></pre></td></tr></table></figure>
+<h2 id="3，使用MultipartBody同时传递键值对参数和File对象"><a href="#3，使用MultipartBody同时传递键值对参数和File对象" class="headerlink" title="3，使用MultipartBody同时传递键值对参数和File对象"></a>3，使用MultipartBody同时传递键值对参数和File对象</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">OkHttpClient client = <span class="keyword">new</span> OkHttpClient();</span><br><span class="line">MultipartBody multipartBody =<span class="keyword">new</span> MultipartBody.Builder()</span><br><span class="line">        .setType(MultipartBody.FORM)</span><br><span class="line">        .addFormDataPart(<span class="string">"groupId"</span>,<span class="string">""</span>+groupId)<span class="comment">//添加键值对参数</span></span><br><span class="line">        .addFormDataPart(<span class="string">"title"</span>,<span class="string">"title"</span>)</span><br><span class="line">        .addFormDataPart(<span class="string">"file"</span>,file.getName(),RequestBody.create(MediaType.parse(<span class="string">"file/*"</span>), file))<span class="comment">//添加文件</span></span><br><span class="line">        .build();</span><br><span class="line"><span class="keyword">final</span> Request request = <span class="keyword">new</span> Request.Builder()</span><br><span class="line">        .url(URLContant.CHAT_ROOM_SUBJECT_IMAGE)</span><br><span class="line">        .post(multipartBody)</span><br><span class="line">        .build();</span><br><span class="line">client.newCall(request).enqueue(<span class="keyword">new</span> Callback() &#123;。。。&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="4，自定义RequestBody实现流的上传"><a href="#4，自定义RequestBody实现流的上传" class="headerlink" title="4，自定义RequestBody实现流的上传"></a>4，自定义RequestBody实现流的上传</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">RequestBody body = <span class="keyword">new</span> RequestBody() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> MediaType <span class="title">contentType</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">writeTo</span><span class="params">(BufferedSink sink)</span> <span class="keyword">throws</span> IOException </span>&#123;<span class="comment">//重写writeTo方法</span></span><br><span class="line">        FileInputStream fio= <span class="keyword">new</span> FileInputStream(<span class="keyword">new</span> File(<span class="string">"fileName"</span>));</span><br><span class="line">        <span class="keyword">byte</span>[] buffer = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>*<span class="number">8</span>];</span><br><span class="line">        <span class="keyword">if</span>(fio.read(buffer) != -<span class="number">1</span>)&#123;</span><br><span class="line">             sink.write(buffer);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"> OkHttpClient client = <span class="keyword">new</span> OkHttpClient();<span class="comment">//创建OkHttpClient对象。</span></span><br><span class="line">Request request = <span class="keyword">new</span> Request.Builder()</span><br><span class="line">        .url(<span class="string">"http://www.baidu.com"</span>)</span><br><span class="line">        .post(body)</span><br><span class="line">        .build();</span><br><span class="line">client.newCall(request).enqueue(<span class="keyword">new</span> Callback() &#123;。。。&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="五，设置请求头"><a href="#五，设置请求头" class="headerlink" title="五，设置请求头"></a>五，设置请求头</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Request request = <span class="keyword">new</span> Request.Builder()</span><br><span class="line">                .url(<span class="string">"http://www.baidu.com"</span>)</span><br><span class="line">                .header(<span class="string">"User-Agent"</span>, <span class="string">"OkHttp Headers.java"</span>)</span><br><span class="line">                .addHeader(<span class="string">"token"</span>, <span class="string">"myToken"</span>)</span><br><span class="line">                .build();</span><br></pre></td></tr></table></figure>
+<h2 id="六，下载文件"><a href="#六，下载文件" class="headerlink" title="六，下载文件"></a>六，下载文件</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">    InputStream  is = response.body().byteStream();<span class="comment">//从服务器得到输入流对象</span></span><br><span class="line">    <span class="keyword">long</span> sum = <span class="number">0</span>;</span><br><span class="line">    File dir = <span class="keyword">new</span> File(mDestFileDir);</span><br><span class="line">    <span class="keyword">if</span> (!dir.exists())&#123;</span><br><span class="line">        dir.mkdirs();</span><br><span class="line">    &#125;</span><br><span class="line">    File file = <span class="keyword">new</span> File(dir, mdestFileName);<span class="comment">//根据目录和文件名得到file对象</span></span><br><span class="line">    FileOutputStream  fos = <span class="keyword">new</span> FileOutputStream(file);</span><br><span class="line">    <span class="keyword">byte</span>[] buf = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>*<span class="number">8</span>];</span><br><span class="line">    <span class="keyword">int</span> len = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> ((len = is.read(buf)) != -<span class="number">1</span>)&#123;</span><br><span class="line">        fos.write(buf, <span class="number">0</span>, len);</span><br><span class="line">    &#125;</span><br><span class="line">    fos.flush();</span><br><span class="line">    <span class="keyword">return</span> file;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></the>
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/09/28/OkHttpClient的使用/">OkHttpClient的使用</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 Daniel 的个人博客">Daniel</a></p>
+        <p><span>发布时间:</span>2018年09月28日 - 00时00分</p>
+        <p><span>最后更新:</span>2018年11月29日 - 14时13分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/09/28/OkHttpClient的使用/" title="OkHttpClient的使用">https://danielxsm.github.io/2018/09/28/OkHttpClient的使用/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://danielxsm.github.io/2018/09/28/OkHttpClient的使用/　　作者: Daniel" title=""></span>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target="_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2018/09/28/spring的重试机制/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Spring的重试机制
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/10/26/java的中各种锁/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">java 中的各种锁</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#代码示例"><span class="toc-number">1.</span> <span class="toc-text">代码示例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#OkHttpClient-的简单配置"><span class="toc-number">1.1.</span> <span class="toc-text">OkHttpClient 的简单配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一，Retrofit-的使用"><span class="toc-number">2.</span> <span class="toc-text">一，Retrofit 的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#OkHttpClient-需要请求的地址的url接口，以及定义的反参类型"><span class="toc-number">2.1.</span> <span class="toc-text">OkHttpClient 需要请求的地址的url接口，以及定义的反参类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#初始化-以及调试测试"><span class="toc-number">2.2.</span> <span class="toc-text">初始化,以及调试测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2，get的异步请求"><span class="toc-number">2.3.</span> <span class="toc-text">2，get的异步请求</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三，post请求的使用方法"><span class="toc-number">3.</span> <span class="toc-text">三，post请求的使用方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2，使用RequestBody传递Json或File对象"><span class="toc-number">4.</span> <span class="toc-text">2，使用RequestBody传递Json或File对象</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#上传json对象使用示例如下："><span class="toc-number">4.1.</span> <span class="toc-text">上传json对象使用示例如下：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#上传File对象使用示例如下："><span class="toc-number">4.2.</span> <span class="toc-text">上传File对象使用示例如下：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3，使用MultipartBody同时传递键值对参数和File对象"><span class="toc-number">5.</span> <span class="toc-text">3，使用MultipartBody同时传递键值对参数和File对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4，自定义RequestBody实现流的上传"><span class="toc-number">6.</span> <span class="toc-text">4，自定义RequestBody实现流的上传</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五，设置请求头"><span class="toc-number">7.</span> <span class="toc-text">五，设置请求头</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#六，下载文件"><span class="toc-number">8.</span> <span class="toc-text">六，下载文件</span></a></li></ol>
+</div>
+<style>
+    .left-col .switch-btn {
+        display: none;
+    }
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+<input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+            $(".switch-btn, .switch-area").fadeOut(300);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+            $(".switch-btn, .switch-area").fadeIn(500);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+        $(".switch-btn, .switch-area").show();
+    }
+</script>
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+        <section class="changyan" id="comments">
+  <!--<div id="uyan_frame"></div>-->
+  <div id="SOHUCS"></div>
+  <script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script>
+  <script type="text/javascript">
+    window.changyan.api.config({
+      appid: 'xxxx',
+      conf: 'xxxxxxxxx'
+    });
+  </script>
+</section>
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2018/09/28/spring的重试机制/" title="上一篇: Spring的重试机制">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2017/10/26/java的中各种锁/" title="下一篇: java 中的各种锁">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/11/22/算法详解Paxos/">Paxos算法详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/22/maven指令详解/">maven指令详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/22/app消息个推详解/">app 消息个推详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/22/jvm带你走进虚拟机的世界/">java 带你走进虚拟机的世界</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/21/加密详解/">java 基本加密方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/21/jwt详解/">java jwt token鉴权</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/20/linux的基本操作/">linux 的基本操作指令</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/20/linux性能定位指令/">Linux 查看性能的指令</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/08/反射机制的渗透/">java 反射机制的渗透</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/08/代理模式的详解/">java 代理模式的详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/01/zookeeper的使用/">zookeeper的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/29/java的中的线程池/">java 线程池详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/20/队列的分析总结/">java 队列的分析总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/30/数据结构的分析/">java 数据结构的分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/28/spring的重试机制/">Spring的重试机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/28/OkHttpClient的使用/">OkHttpClient的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/java的中各种锁/">java 中的各种锁</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/java的中的多线程/">java 中的多线程</a></li></ul>
+    
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+
+    <script>
+        $(".post-list").addClass("toc-article");
+        // $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2018 Daniel
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">Hexo &nbsp;&nbsp;</a><a href="https://github.com/maochunguang" target="_blank">Blog</a> by tommy
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style="display:none">
+                        <span id="site-visit">极客到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style="display:none">
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 1;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'xxxxx', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?xxxxxx";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>

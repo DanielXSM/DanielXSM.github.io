@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  <meta name="baidu-site-verification" content="L6Lm9d5Crl">
+  
+  
+  
+  
+  <title>linux 的基本操作指令 | Daniel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="linux 的基本操作指令： 欢迎来学习~~">
+<meta name="keywords" content="linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux 的基本操作指令">
+<meta property="og:url" content="https://danielxsm.github.io/2018/11/20/linux的基本操作/index.html">
+<meta property="og:site_name" content="Daniel">
+<meta property="og:description" content="linux 的基本操作指令： 欢迎来学习~~">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-11-29T06:14:43.776Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="linux 的基本操作指令">
+<meta name="twitter:description" content="linux 的基本操作指令： 欢迎来学习~~">
+  
+    <link rel="alternative" href="https://github.com/DanielXSM" title="Daniel" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/avatar1.png">
+  
+  
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet">
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/avatar1.png" class="js-avatar">
+            
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Daniel</a></h1>
+        </hgroup>
+        
+        
+            <form>
+                <input type="text" class="st-default-search-input search" id="local-search-input" placeholder="搜索一下" autocomplete="off">
+            </form>
+            <div id="local-search-result"></div>
+        
+        
+            <script type="text/javascript">
+                (function() {
+                    'use strict';
+                    function getMatchData(keyword, data) {
+                        var matchData = [];
+                        for(var i =0;i<data.length;i++){
+                            if(data[i].title.toLowerCase().indexOf(keyword)>=0) 
+                                matchData.push(data[i])
+                        }
+                        return matchData;
+                    }
+                    var $input = $('#local-search-input');
+                    var $resultContent = $('#local-search-result');
+                    $input.keyup(function(){
+                        $.ajax({
+                            url: '/search.json',
+                            dataType: "json",
+                            success: function( json ) {
+                                var str='<ul class=\"search-result-list\">';                
+                                var keyword = $input.val().trim().toLowerCase();
+                                $resultContent.innerHTML = "";
+                                if ($input.val().trim().length <= 0) {
+                                    $resultContent.empty();
+                                    $('#switch-area').show();
+                                    return;
+                                }
+                                var results = getMatchData(keyword, json);
+                                if(results.length === 0){
+                                    $resultContent.empty();
+                                    $('#switch-area').show();
+                                    return;
+                                } 
+                                for(var i =0; i<results.length; i++){
+                                    str += "<li><a href='"+ results[i].url +"' class='search-result-title'>"+ results[i].title +"</a></li>";
+                                }
+                                str += "</ul>";
+                                $resultContent.empty();
+                                $resultContent.append(str);
+                                $('#switch-area').hide();
+                            }
+                        });
+                    });
+                })();
+            </script>
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/categories/spring/">玩转spring</a></li>
+                        
+                            <li><a href="/categories/linux">Linux指令</a></li>
+                        
+                            <li><a href="/categories/java">java大典</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/DanielXSM" title="github">github</a>
+                            
+                                <a class="fl weibo" target="_blank" href="https://github.com/DanielXSM" title="weibo">weibo</a>
+                            
+                                <a class="fl rss" target="_blank" href="https://github.com/DanielXSM" title="rss">rss</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/jvm/" style="font-size: 10px;">jvm</a> <a href="/tags/linux/" style="font-size: 20px;">linux</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/okhttp/" style="font-size: 10px;">okhttp</a> <a href="/tags/push-message/" style="font-size: 10px;">push message</a> <a href="/tags/spring-标签/" style="font-size: 10px;">spring 标签</a> <a href="/tags/zookeeper/" style="font-size: 10px;">zookeeper</a> <a href="/tags/代理/" style="font-size: 10px;">代理</a> <a href="/tags/反射/" style="font-size: 10px;">反射</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/数据结构/" style="font-size: 10px;">数据结构</a> <a href="/tags/算法/" style="font-size: 20px;">算法</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/鉴权/" style="font-size: 10px;">鉴权</a> <a href="/tags/锁/" style="font-size: 10px;">锁</a> <a href="/tags/队列/" style="font-size: 10px;">队列</a>
+                    </div>
+                </section>
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/DanielXSM">csdn</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/DanielXSM">segmentfault</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/DanielXSM">简书</a>
+                    
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">运动，音乐，舞蹈!</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Daniel</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/avatar1.png" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Daniel</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/categories/spring/">玩转spring</a></li>
+                
+                    <li><a href="/categories/linux">Linux指令</a></li>
+                
+                    <li><a href="/categories/java">java大典</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="github" target="_blank" href="https://github.com/DanielXSM" title="github">github</a>
+                    
+                        <a class="weibo" target="_blank" href="https://github.com/DanielXSM" title="weibo">weibo</a>
+                    
+                        <a class="rss" target="_blank" href="https://github.com/DanielXSM" title="rss">rss</a>
+                    
+                </div>
+            </nav>
+        </header>
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-linux的基本操作" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/11/20/linux的基本操作/" class="article-date">
+      <time datetime="2018-11-19T16:00:00.000Z" itemprop="datePublished">2018-11-20</time>
+</a>
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      linux 的基本操作指令
+    </h1>
+  
+
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/linux/">linux</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><strong> linux 的基本操作指令：</strong> <excerpt in="" index="" |="" 首页摘要=""><br>欢迎来学习~~<br><a id="more"></a></excerpt></p>
+<the rest="" of="" contents="" |="" 余下全文="">
+
+<h2 id="一：find-命令"><a href="#一：find-命令" class="headerlink" title="一：find 命令"></a><font color="#0099ff" size="7" face="黑体">一：find 命令<font></font></font></h2><h4 id="1-查找文件（根据文件格式进行查找）查找-home-下的以-txt结尾的文件：find-home-name-“-txt”"><a href="#1-查找文件（根据文件格式进行查找）查找-home-下的以-txt结尾的文件：find-home-name-“-txt”" class="headerlink" title="1:查找文件（根据文件格式进行查找）查找/home 下的以.txt结尾的文件：find /home -name “*.txt”"></a>1:查找文件（根据文件格式进行查找）查找/home 下的以.txt结尾的文件：<strong>find /home -name “*.txt”</strong></h4><h4 id="2-递归查找所有的文件（当前目录及子目录下查找所有以-txt和-pdf结尾的文件-o-的意思为或者-）-find-name-“-txt”-o-name-“-pdf”"><a href="#2-递归查找所有的文件（当前目录及子目录下查找所有以-txt和-pdf结尾的文件-o-的意思为或者-）-find-name-“-txt”-o-name-“-pdf”" class="headerlink" title="2:递归查找所有的文件（当前目录及子目录下查找所有以.txt和.pdf结尾的文件,-o 的意思为或者 ）: find . -name “.txt” -o -name “.pdf”"></a>2:递归查找所有的文件（当前目录及子目录下查找所有以.txt和.pdf结尾的文件,-o 的意思为或者 ）: <strong>find . -name “<em>.txt” -o -name “</em>.pdf”</strong></h4><h4 id="3-查找-home-下不是以-txt结尾的文件：find-home-name-“-txt”"><a href="#3-查找-home-下不是以-txt结尾的文件：find-home-name-“-txt”" class="headerlink" title="3: 查找 /home 下不是以 .txt结尾的文件：find /home ! -name “.txt”"></a>3: 查找 /home 下不是以 .txt结尾的文件：<strong>find /home ! -name “.txt”</strong></h4><h4 id="4-根据文件类型进行查找：-type-为类型参数"><a href="#4-根据文件类型进行查找：-type-为类型参数" class="headerlink" title="4:根据文件类型进行查找： -type 为类型参数"></a>4:根据文件类型进行查找： -type 为类型参数</h4><ul>
+<li>f 表示的是文件</li>
+<li>d 表示的是目录</li>
+<li>c 表示的是字符设备</li>
+<li>b 表示的是块设备</li>
+<li>s 表示的是套接字</li>
+<li>i 表示的是链接 <h4 id="5-查找-home-下的子目录：find-home-type-d"><a href="#5-查找-home-下的子目录：find-home-type-d" class="headerlink" title="5: 查找/home 下的子目录：find /home -type d"></a>5: 查找/home 下的子目录：<strong>find /home -type d</strong></h4><h4 id="6-根据文件目录的层数进行查找：find-maxdepth-层数-按照最大的层数来查找，-mindepth-层数-按最小的层数来查找"><a href="#6-根据文件目录的层数进行查找：find-maxdepth-层数-按照最大的层数来查找，-mindepth-层数-按最小的层数来查找" class="headerlink" title="6: 根据文件目录的层数进行查找：find -maxdepth+层数 按照最大的层数来查找，-mindepth+层数 按最小的层数来查找"></a>6: 根据文件目录的层数进行查找：<strong>find -maxdepth+层数 按照最大的层数来查找，-mindepth+层数 按最小的层数来查找</strong></h4><h4 id="7：查找-home-下目录最大层数为2层的文件-find-home-maxdepth-type-f"><a href="#7：查找-home-下目录最大层数为2层的文件-find-home-maxdepth-type-f" class="headerlink" title="7：查找/home 下目录最大层数为2层的文件: find /home -maxdepth - -type f"></a>7：查找/home 下目录最大层数为2层的文件: <strong>find /home -maxdepth - -type f</strong></h4><h2 id="二：-查看一个程序是否运行"><a href="#二：-查看一个程序是否运行" class="headerlink" title="二： 查看一个程序是否运行"></a>二： 查看一个程序是否运行</h2><h4 id="1-查看所有的tomcat的进程：ps-ef-grep-tomcat"><a href="#1-查看所有的tomcat的进程：ps-ef-grep-tomcat" class="headerlink" title="1: 查看所有的tomcat的进程：ps -ef|grep tomcat"></a>1: 查看所有的tomcat的进程：<strong>ps -ef|grep tomcat</strong></h4><h4 id="2-终止线程19979的进程-终止线程：kill-9-19979"><a href="#2-终止线程19979的进程-终止线程：kill-9-19979" class="headerlink" title="2:终止线程19979的进程 终止线程：kill -9 19979"></a>2:终止线程19979的进程 终止线程：<strong>kill -9 19979</strong></h4><h4 id="3：批量终止java进程-pkill-9-java"><a href="#3：批量终止java进程-pkill-9-java" class="headerlink" title="3：批量终止java进程:pkill -9 java"></a>3：批量终止java进程:<strong>pkill -9 java</strong></h4><h2 id="三：-查看文件"><a href="#三：-查看文件" class="headerlink" title="三： 查看文件"></a>三： 查看文件</h2><h4 id="1-产看文件，包括隐藏文件：ls-al"><a href="#1-产看文件，包括隐藏文件：ls-al" class="headerlink" title="1:产看文件，包括隐藏文件：ls -al"></a>1:产看文件，包括隐藏文件：<strong>ls -al</strong></h4><h4 id="2-查看目录：pwd"><a href="#2-查看目录：pwd" class="headerlink" title="2:查看目录：pwd"></a>2:查看目录：<strong>pwd</strong></h4><h4 id="3-创建目录：mkdir-fold"><a href="#3-创建目录：mkdir-fold" class="headerlink" title="3:创建目录：mkdir fold"></a>3:创建目录：<strong>mkdir fold</strong></h4><h4 id="4-递归删除目录：rm-rf-fold"><a href="#4-递归删除目录：rm-rf-fold" class="headerlink" title="4:递归删除目录：rm -rf fold"></a>4:递归删除目录：<strong>rm -rf fold</strong></h4><h4 id="5-移动文件：mv-tmp-tofold"><a href="#5-移动文件：mv-tmp-tofold" class="headerlink" title="5:移动文件：mv /tmp /tofold"></a>5:移动文件：<strong>mv /tmp /tofold</strong></h4><h4 id="6-重命名文件：mv-file1-file2"><a href="#6-重命名文件：mv-file1-file2" class="headerlink" title="6:重命名文件：mv file1 file2"></a>6:重命名文件：<strong>mv file1 file2</strong></h4></li>
+</ul>
+<h2 id="四：-复制文件"><a href="#四：-复制文件" class="headerlink" title="四： 复制文件"></a>四： 复制文件</h2><h4 id="1-复制当前文件到目标地址-：cp-source-dest"><a href="#1-复制当前文件到目标地址-：cp-source-dest" class="headerlink" title="1:复制当前文件到目标地址 ：cp source dest"></a>1:复制当前文件到目标地址 ：<strong>cp source dest</strong></h4><h4 id="2-复制当前目录”test-“下的所有的文件到新的目录-newtest下-：cp-–r-test-newtest"><a href="#2-复制当前目录”test-“下的所有的文件到新的目录-newtest下-：cp-–r-test-newtest" class="headerlink" title="2:复制当前目录”test/“下的所有的文件到新的目录 newtest下 ：cp –r test/ newtest"></a>2:复制当前目录”test/“下的所有的文件到新的目录 newtest下 ：<strong>cp –r test/ newtest</strong></h4><h4 id="3：远程拷贝（从远处复制目录到本地）-：scp-r-root-192-168-120-204-opt-soft-mongodb-opt-soft"><a href="#3：远程拷贝（从远处复制目录到本地）-：scp-r-root-192-168-120-204-opt-soft-mongodb-opt-soft" class="headerlink" title="3：远程拷贝（从远处复制目录到本地） ：scp -r root@192.168.120.204:/opt/soft/mongodb /opt/soft/"></a>3：远程拷贝（从远处复制目录到本地） ：<strong>scp -r <a href="mailto:root@192.168.120.204" target="_blank" rel="noopener">root@192.168.120.204</a>:/opt/soft/mongodb /opt/soft/</strong></h4><h4 id="4：远程拷贝（从远处复制文件到本地目录）-：scp-root-192-168-120-204-opt-soft-nginx-0-5-38-tar-gz-opt-soft"><a href="#4：远程拷贝（从远处复制文件到本地目录）-：scp-root-192-168-120-204-opt-soft-nginx-0-5-38-tar-gz-opt-soft" class="headerlink" title="4：远程拷贝（从远处复制文件到本地目录） ：scp root@192.168.120.204:/opt/soft/nginx-0.5.38.tar.gz /opt/soft/"></a>4：远程拷贝（从远处复制文件到本地目录） ：<strong>scp <a href="mailto:root@192.168.120.204" target="_blank" rel="noopener">root@192.168.120.204</a>:/opt/soft/nginx-0.5.38.tar.gz /opt/soft/</strong></h4><h4 id="5：远程拷贝（从本地服务器复制到远程服务器：）-：scp-local-file-remote-username-remote-ip-remote-folder"><a href="#5：远程拷贝（从本地服务器复制到远程服务器：）-：scp-local-file-remote-username-remote-ip-remote-folder" class="headerlink" title="5：远程拷贝（从本地服务器复制到远程服务器：） ：scp local_file remote_username@remote_ip:remote_folder"></a>5：远程拷贝（从本地服务器复制到远程服务器：） ：<strong>scp local_file remote_username@remote_ip:remote_folder</strong></h4><h2 id="五-权限"><a href="#五-权限" class="headerlink" title="五: 权限"></a>五: 权限</h2><h4 id="切换用户：su-username"><a href="#切换用户：su-username" class="headerlink" title="切换用户：su -username"></a>切换用户：<strong>su -username</strong></h4><h4 id="su方式切换是须要输入目标用户的password。而sudo仅仅须要输入自己的password，所以sudo能够保护目标用户的password不外流的。当帮root管理系统的时候，su是直接将root全部权利交给用户。而sudo能够更好分工，仅仅要配置好-etc-sudoers，这样sudo能够保护系统更安全，并且分工明白，有条不紊。"><a href="#su方式切换是须要输入目标用户的password。而sudo仅仅须要输入自己的password，所以sudo能够保护目标用户的password不外流的。当帮root管理系统的时候，su是直接将root全部权利交给用户。而sudo能够更好分工，仅仅要配置好-etc-sudoers，这样sudo能够保护系统更安全，并且分工明白，有条不紊。" class="headerlink" title="su方式切换是须要输入目标用户的password。而sudo仅仅须要输入自己的password，所以sudo能够保护目标用户的password不外流的。当帮root管理系统的时候，su是直接将root全部权利交给用户。而sudo能够更好分工，仅仅要配置好/etc/sudoers，这样sudo能够保护系统更安全，并且分工明白，有条不紊。"></a><strong>su方式切换是须要输入目标用户的password。而sudo仅仅须要输入自己的password，所以sudo能够保护目标用户的password不外流的。当帮root管理系统的时候，su是直接将root全部权利交给用户。而sudo能够更好分工，仅仅要配置好/etc/sudoers，这样sudo能够保护系统更安全，并且分工明白，有条不紊。</strong></h4><h4 id="sudo-s-切换root权限-sudo-su-和-sudo-s都是切换到root用户，不同的是："><a href="#sudo-s-切换root权限-sudo-su-和-sudo-s都是切换到root用户，不同的是：" class="headerlink" title="sudo -s  切换root权限 ,sudo su 和 sudo -s都是切换到root用户，不同的是："></a><strong>sudo -s  切换root权限 ,sudo su 和 sudo -s都是切换到root用户，不同的是：</strong></h4><ul>
+<li>sudo su 环境用的是目标用户(root)的环境</li>
+<li>sudo -s 环境用的是当前用户本身的环境<h4 id="例如：sudo-head-head-n-30000-etc-sudoers"><a href="#例如：sudo-head-head-n-30000-etc-sudoers" class="headerlink" title="例如：sudo head head -n 30000 /etc/sudoers"></a>例如：<strong>sudo head head -n 30000 /etc/sudoers</strong></h4><h4 id="修改文件权限-chmod-777-file-java"><a href="#修改文件权限-chmod-777-file-java" class="headerlink" title="修改文件权限: chmod 777 file.java"></a>修改文件权限: <strong>chmod 777 file.java</strong></h4><h2 id="六：文件"><a href="#六：文件" class="headerlink" title="六：文件"></a>六：文件</h2><h4 id="1-压缩文件-tar-czf-test-tar-gz-test1-test2"><a href="#1-压缩文件-tar-czf-test-tar-gz-test1-test2" class="headerlink" title="1:压缩文件 tar -czf test.tar.gz /test1 /test2"></a>1:压缩文件 <strong>tar -czf test.tar.gz /test1 /test2</strong></h4><h4 id="2-压缩成zip-的文件-：zip-r-test-zip-test"><a href="#2-压缩成zip-的文件-：zip-r-test-zip-test" class="headerlink" title="2:压缩成zip 的文件 ：zip -r test.zip /test"></a>2:压缩成zip 的文件 ：<strong>zip -r test.zip /test</strong></h4><h4 id="3-列出压缩文件的列表-：tar-tzf-test-tar-gz"><a href="#3-列出压缩文件的列表-：tar-tzf-test-tar-gz" class="headerlink" title="3:列出压缩文件的列表 ：tar tzf test.tar.gz"></a>3:列出压缩文件的列表 ：<strong>tar tzf test.tar.gz</strong></h4><h4 id="4-解压gz文件-：tar-zxvf-test-tar-gz"><a href="#4-解压gz文件-：tar-zxvf-test-tar-gz" class="headerlink" title="4:解压gz文件 ：tar -zxvf test.tar.gz"></a>4:解压gz文件 ：<strong>tar -zxvf test.tar.gz</strong></h4><h4 id="5-解压zip文件-：unzip-test-zip"><a href="#5-解压zip文件-：unzip-test-zip" class="headerlink" title="5:解压zip文件 ：unzip test.zip"></a>5:解压zip文件 ：<strong>unzip test.zip</strong></h4></li>
+</ul>
+<h2 id="七：查看日志"><a href="#七：查看日志" class="headerlink" title="七：查看日志"></a>七：查看日志</h2><h4 id="查看头10行的：head-n-10-example-txt"><a href="#查看头10行的：head-n-10-example-txt" class="headerlink" title="查看头10行的：head -n 10 example.txt"></a>查看头10行的：<strong>head -n 10 example.txt</strong></h4><h4 id="查看后10行的：tail-n-10-example-txt"><a href="#查看后10行的：tail-n-10-example-txt" class="headerlink" title="查看后10行的：tail -n 10 example.txt"></a>查看后10行的：<strong>tail -n 10 example.txt</strong></h4><h4 id="查看日志最新的10行-tail-f-example-log"><a href="#查看日志最新的10行-tail-f-example-log" class="headerlink" title="查看日志最新的10行: tail -f example.log"></a>查看日志最新的10行: <strong>tail -f example.log</strong></h4><h4 id="查看日志的后10000行-关键字是-Exception-的前后50行的日志：tail-n-10000-aa-log-grep-C-50-‘Exception’"><a href="#查看日志的后10000行-关键字是-Exception-的前后50行的日志：tail-n-10000-aa-log-grep-C-50-‘Exception’" class="headerlink" title="查看日志的后10000行,关键字是 Exception 的前后50行的日志：tail -n 10000 aa.log|grep -C 50 ‘Exception’"></a>查看日志的后10000行,关键字是 Exception 的前后50行的日志：<strong>tail -n 10000 aa.log|grep -C 50 ‘Exception’</strong></h4><h4 id="根据行号查找对应的数据1：cat-n-aa-log-grep-‘aa’"><a href="#根据行号查找对应的数据1：cat-n-aa-log-grep-‘aa’" class="headerlink" title="根据行号查找对应的数据1：cat -n aa.log |grep ‘aa’"></a>根据行号查找对应的数据1：<strong>cat -n aa.log |grep ‘aa’</strong></h4><h4 id="根据行号查找对应的数据2：cat-n-aa-log-tail-n-3586-head-n-100"><a href="#根据行号查找对应的数据2：cat-n-aa-log-tail-n-3586-head-n-100" class="headerlink" title="根据行号查找对应的数据2：cat -n aa.log |tail -n +3586|head -n 100"></a>根据行号查找对应的数据2：<strong>cat -n aa.log |tail -n +3586|head -n 100</strong></h4><h4 id="less查看日志：less-a-log"><a href="#less查看日志：less-a-log" class="headerlink" title="less查看日志：less a.log"></a>less查看日志：<strong>less a.log</strong></h4><h2 id="八-系统配置"><a href="#八-系统配置" class="headerlink" title="八 系统配置"></a>八 系统配置</h2><h4 id="在LINUX-系统中的配置文件的路径为：-etc-profile"><a href="#在LINUX-系统中的配置文件的路径为：-etc-profile" class="headerlink" title="在LINUX 系统中的配置文件的路径为：/etc/profile"></a>在LINUX 系统中的配置文件的路径为：<strong>/etc/profile</strong></h4><h4 id="使用-cat-etc-profile-来查看配置文件的内容，profile-配置文件的的信息："><a href="#使用-cat-etc-profile-来查看配置文件的内容，profile-配置文件的的信息：" class="headerlink" title="使用 cat/etc/profile 来查看配置文件的内容，profile 配置文件的的信息："></a>使用 <strong>cat/etc/profile</strong> 来查看配置文件的内容，profile 配置文件的的信息：</h4><ul>
+<li>export JAVA_HOME =/opt/jdk </li>
+<li>export CLASSPATH=. </li>
+<li>export PATH=/opt/jdk/bin:$PATH<br><strong>JAVA_HOME 指向JAVA JDK 的安装目录，通知某些软件如何找到JDK的安装目录，CLASS_PATH 表示类的搜索路径，简单的可以点.PATH 指向的JAK的bin 的目录 javac 和java等命令安装在此目录中</strong> <h2 id="九查看端口号"><a href="#九查看端口号" class="headerlink" title="九查看端口号"></a>九查看端口号</h2><h4 id="查看端口的状态-：lsof-i-8080"><a href="#查看端口的状态-：lsof-i-8080" class="headerlink" title="查看端口的状态 ：lsof -i:8080"></a>查看端口的状态 ：<strong>lsof -i:8080</strong></h4><h4 id="查看哪些端口被打开：netstat-anp"><a href="#查看哪些端口被打开：netstat-anp" class="headerlink" title="查看哪些端口被打开：netstat -anp"></a>查看哪些端口被打开：<strong>netstat -anp</strong></h4><h4 id="关闭端口号-通过iptables工具将该端口禁掉，-1：sudo-iptables-A-INPUT-p-tcp-–dport-PORT-j-DROP”-sudo-iptables-A-OUTPUT-p-tcp-–dport-PORT-j-DROP”"><a href="#关闭端口号-通过iptables工具将该端口禁掉，-1：sudo-iptables-A-INPUT-p-tcp-–dport-PORT-j-DROP”-sudo-iptables-A-OUTPUT-p-tcp-–dport-PORT-j-DROP”" class="headerlink" title="关闭端口号(通过iptables工具将该端口禁掉，)1：sudo iptables -A INPUT -p tcp –dport $PORT -j DROP” , sudo iptables -A OUTPUT -p tcp –dport $PORT -j DROP”"></a>关闭端口号(通过iptables工具将该端口禁掉，)1：<strong>sudo iptables -A INPUT -p tcp –dport $PORT -j DROP”</strong> , <strong>sudo iptables -A OUTPUT -p tcp –dport $PORT -j DROP”</strong></h4><h4 id="关闭端口号-关掉对应的应用程序，则端口就自然关闭了-2：kill-9-PID”-PID：进程号"><a href="#关闭端口号-关掉对应的应用程序，则端口就自然关闭了-2：kill-9-PID”-PID：进程号" class="headerlink" title="关闭端口号(关掉对应的应用程序，则端口就自然关闭了)2：kill -9 PID” (PID：进程号)"></a>关闭端口号(关掉对应的应用程序，则端口就自然关闭了)2：<strong>kill -9 PID” (PID：进程号)</strong></h4></li>
+</ul>
+<h4 id="kill-sig-pid-这里的-sig-可以是信号对应的数字，也可以是信号名，比如你如果用-kill-9-pid-实际是发-9号信号给进城，9对应的信号名是-KILL。所以-kill-9-等价于-kill-KILL-pid。-常用的几个信号是"><a href="#kill-sig-pid-这里的-sig-可以是信号对应的数字，也可以是信号名，比如你如果用-kill-9-pid-实际是发-9号信号给进城，9对应的信号名是-KILL。所以-kill-9-等价于-kill-KILL-pid。-常用的几个信号是" class="headerlink" title="kill -sig pid,这里的 sig 可以是信号对应的数字，也可以是信号名，比如你如果用 kill -9 pid 实际是发 9号信号给进城，9对应的信号名是 KILL。所以 kill -9 等价于 kill -KILL pid。 常用的几个信号是 :"></a>kill -sig pid,这里的 sig 可以是信号对应的数字，也可以是信号名，比如你如果用 kill -9 pid 实际是发 9号信号给进城，9对应的信号名是 KILL。所以 kill -9 等价于 kill -KILL pid。 常用的几个信号是 :</h4><table>
+<thead>
+<tr>
+<th style="text-align:center">端口</th>
+<th style="text-align:center">数字</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">INT</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">这个就是你在bash下面用Ctrl+C 来结束一个程序时，bash会向进程发送这个信号，默认的，进程收到这个程序会结束。 你可以用 kill -INT pid 来发这个信号。</td>
+</tr>
+<tr>
+<td style="text-align:center">QUIT</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">这个是你在bash下用 Ctrl+\ 来结束程序时，发的信号，进程默认受到这个信号后也是结束</td>
+</tr>
+<tr>
+<td style="text-align:center">KILL</td>
+<td style="text-align:center">9</td>
+<td style="text-align:center">这个信号之所以被称为“强杀”，就是因为无法改变进程收到这个信号后所执行的动作，进程只能退出。(前面说的两个信号，虽然默认是退出，但是应用程序自己可以通过signal系统调用来修改成其他动作，比如忽略那两个信号等动作)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="打开端口号-1-开放端口命令：：1：-sbin-iptables-I-INPUT-p-tcp-–dport-8080-j-ACCEPT-2-保存：-etc-rc-d-init-d-iptables-save-3-重启服务：-etc-init-d-iptables-restart-4-查看端口是否开放：-sbin-iptables-L-n"><a href="#打开端口号-1-开放端口命令：：1：-sbin-iptables-I-INPUT-p-tcp-–dport-8080-j-ACCEPT-2-保存：-etc-rc-d-init-d-iptables-save-3-重启服务：-etc-init-d-iptables-restart-4-查看端口是否开放：-sbin-iptables-L-n" class="headerlink" title="打开端口号,1. 开放端口命令：：1： /sbin/iptables -I INPUT -p tcp –dport 8080 -j ACCEPT 2.保存：/etc/rc.d/init.d/iptables save  3.重启服务：/etc/init.d/iptables restart 4.查看端口是否开放：/sbin/iptables -L -n"></a>打开端口号,1. 开放端口命令：：<strong>1： /sbin/iptables -I INPUT -p tcp –dport 8080 -j ACCEPT</strong> <strong>2.保存：/etc/rc.d/init.d/iptables save</strong>  <strong>3.重启服务：/etc/init.d/iptables restart</strong> <strong>4.查看端口是否开放：/sbin/iptables -L -n</strong></h4><h4 id="直接编辑-etc-sysconfig-iptables文件：1-编辑-etc-sysconfig-iptables文件：vi-etc-sysconfig-iptables-加入内容并保存：-A-RH-Firewall-1-INPUT-m-state-–state-NEW-m-tcp-p-tcp-–dport-8080-j-ACCEPT-2-重启服务：-etc-init-d-iptables-restart-3-查看端口是否开放：-sbin-iptables-L-n"><a href="#直接编辑-etc-sysconfig-iptables文件：1-编辑-etc-sysconfig-iptables文件：vi-etc-sysconfig-iptables-加入内容并保存：-A-RH-Firewall-1-INPUT-m-state-–state-NEW-m-tcp-p-tcp-–dport-8080-j-ACCEPT-2-重启服务：-etc-init-d-iptables-restart-3-查看端口是否开放：-sbin-iptables-L-n" class="headerlink" title="直接编辑/etc/sysconfig/iptables文件：1.编辑/etc/sysconfig/iptables文件：vi /etc/sysconfig/iptables, 加入内容并保存：-A RH-Firewall-1-INPUT -m state –state NEW -m tcp -p tcp –dport 8080 -j ACCEPT  2.重启服务：/etc/init.d/iptables restart   3.查看端口是否开放：/sbin/iptables -L -n"></a>直接编辑/etc/sysconfig/iptables文件：<strong>1.编辑/etc/sysconfig/iptables文件：vi /etc/sysconfig/iptables, 加入内容并保存：-A RH-Firewall-1-INPUT -m state –state NEW -m tcp -p tcp –dport 8080 -j ACCEPT</strong>  <strong>2.重启服务：/etc/init.d/iptables restart</strong>  <strong> 3.查看端口是否开放：/sbin/iptables -L -n</strong></h4><h2 id="十：防火墙"><a href="#十：防火墙" class="headerlink" title="十：防火墙"></a>十：防火墙</h2><h4 id="查看防火墙的状态-service-iptables-status-etc-init-d-iptables-status"><a href="#查看防火墙的状态-service-iptables-status-etc-init-d-iptables-status" class="headerlink" title="查看防火墙的状态: service iptables status   /etc/init.d/iptables status"></a>查看防火墙的状态: <strong>service iptables status</strong>  <strong> /etc/init.d/iptables status</strong></h4><h4 id="开启防火墙-service-iptables-start"><a href="#开启防火墙-service-iptables-start" class="headerlink" title="开启防火墙: service iptables start"></a>开启防火墙:<strong> service iptables start</strong></h4><h4 id="关闭防火墙：service-iptables-stop"><a href="#关闭防火墙：service-iptables-stop" class="headerlink" title="关闭防火墙：service iptables stop"></a>关闭防火墙：<strong>service iptables stop</strong></h4><h4 id="暂时关闭防火墙：-etc-init-d-iptables-stop"><a href="#暂时关闭防火墙：-etc-init-d-iptables-stop" class="headerlink" title="暂时关闭防火墙： /etc/init.d/iptables stop"></a>暂时关闭防火墙：<strong> /etc/init.d/iptables stop</strong></h4><h4 id="重启iptables-etc-init-d-iptables-restart"><a href="#重启iptables-etc-init-d-iptables-restart" class="headerlink" title="重启iptables : /etc/init.d/iptables restart"></a>重启iptables :<strong> /etc/init.d/iptables restart</strong></h4><h4 id="获取外网的ip-curl-ipecho-net-plain"><a href="#获取外网的ip-curl-ipecho-net-plain" class="headerlink" title="获取外网的ip:curl ipecho.net/plain "></a>获取外网的ip:<strong>curl ipecho.net/plain </strong></h4><h4 id="更改文件夹的权限-路径权限：chown-centos-centos-app-jar-R-更改文件夹的权限。路径全线"><a href="#更改文件夹的权限-路径权限：chown-centos-centos-app-jar-R-更改文件夹的权限。路径全线" class="headerlink" title="更改文件夹的权限,路径权限：chown centos.centos /app/jar -R 更改文件夹的权限。路径全线"></a>更改文件夹的权限,路径权限：<strong>chown centos.centos /app/jar -R 更改文件夹的权限。路径全线</strong></h4><h4 id="修改文件夹的读写和执行权限：-chmod-777-file"><a href="#修改文件夹的读写和执行权限：-chmod-777-file" class="headerlink" title="修改文件夹的读写和执行权限： chmod 777 file"></a>修改文件夹的读写和执行权限： <strong>chmod 777 file</strong></h4><h2 id="十一：查看系统信息"><a href="#十一：查看系统信息" class="headerlink" title="十一：查看系统信息"></a>十一：查看系统信息</h2><h4 id="查看内存信息：free-m"><a href="#查看内存信息：free-m" class="headerlink" title="查看内存信息：free -m"></a>查看内存信息：<strong>free -m</strong></h4><h4 id="查看系统的日志信息：cat-var-log-messages"><a href="#查看系统的日志信息：cat-var-log-messages" class="headerlink" title="查看系统的日志信息：cat /var/log/messages"></a>查看系统的日志信息：<strong>cat /var/log/messages</strong></h4><h2 id="设置服务器时间"><a href="#设置服务器时间" class="headerlink" title="设置服务器时间"></a>设置服务器时间</h2><h4 id="1-安装ntpdate-工具"><a href="#1-安装ntpdate-工具" class="headerlink" title="1:安装ntpdate 工具"></a>1:安装ntpdate 工具</h4><h4 id="2：设置系统时间与网络时间同步：-ntpdate-cn-pool-ntp-org-或者-ntpdate-u-u-ntp1-aliyun-com"><a href="#2：设置系统时间与网络时间同步：-ntpdate-cn-pool-ntp-org-或者-ntpdate-u-u-ntp1-aliyun-com" class="headerlink" title="2：设置系统时间与网络时间同步： ntpdate cn.pool.ntp.org 或者 ntpdate -u -u ntp1.aliyun.com"></a>2：设置系统时间与网络时间同步： <strong>ntpdate cn.pool.ntp.org</strong> 或者 <strong>ntpdate -u -u ntp1.aliyun.com</strong></h4><h4 id="3：查看当前时区date-R"><a href="#3：查看当前时区date-R" class="headerlink" title="3：查看当前时区date -R"></a>3：查看当前时区<strong>date -R</strong></h4><h4 id="4-方法A-修改设置Linux服务器时区-tzselect"><a href="#4-方法A-修改设置Linux服务器时区-tzselect" class="headerlink" title="4: 方法A,修改设置Linux服务器时区,tzselect"></a>4: 方法A,修改设置Linux服务器时区,<strong>tzselect</strong></h4><h4 id="5-方法B-仅限于RedHat-Linux-和-CentOS“timeconfig”"><a href="#5-方法B-仅限于RedHat-Linux-和-CentOS“timeconfig”" class="headerlink" title="5: 方法B 仅限于RedHat Linux 和 CentOS“timeconfig”"></a>5: 方法B 仅限于RedHat Linux 和 CentOS<strong>“timeconfig”</strong></h4><h4 id="6-方法C-适用于Debian-dpkg-reconfigure-tzdata"><a href="#6-方法C-适用于Debian-dpkg-reconfigure-tzdata" class="headerlink" title="6: 方法C,适用于Debian,dpkg-reconfigure tzdata"></a>6: 方法C,适用于Debian,<strong>dpkg-reconfigure tzdata</strong></h4><h4 id="7-复制相应的时区文件，替换系统时区文件；或者创建链接文件-cp-usr-share-zoneinfo-主时区-次时区-etc-localtime-例如：cp-usr-share-zoneinfo-Asia-Shanghai-etc-localtime"><a href="#7-复制相应的时区文件，替换系统时区文件；或者创建链接文件-cp-usr-share-zoneinfo-主时区-次时区-etc-localtime-例如：cp-usr-share-zoneinfo-Asia-Shanghai-etc-localtime" class="headerlink" title="7:复制相应的时区文件，替换系统时区文件；或者创建链接文件:cp /usr/share/zoneinfo/$主时区/$次时区 /etc/localtime 例如：cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime"></a>7:复制相应的时区文件，替换系统时区文件；或者创建链接文件:<strong>cp /usr/share/zoneinfo/$主时区/$次时区 /etc/localtime</strong> 例如：<strong>cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</strong></h4><h4 id="8：查看和修改Linux的时间-date”"><a href="#8：查看和修改Linux的时间-date”" class="headerlink" title="8：查看和修改Linux的时间: date”"></a>8：查看和修改Linux的时间: <strong>date”</strong></h4><h4 id="9：例如：将系统日期设定成2009年11月3日的命令-date-s-11-03-2009"><a href="#9：例如：将系统日期设定成2009年11月3日的命令-date-s-11-03-2009" class="headerlink" title="9：例如：将系统日期设定成2009年11月3日的命令: date -s 11/03/2009"></a>9：例如：将系统日期设定成2009年11月3日的命令: <strong>date -s 11/03/2009</strong></h4><h4 id="10：将系统时间设定成下午5点55分55秒的命令-date-s-17-55-55"><a href="#10：将系统时间设定成下午5点55分55秒的命令-date-s-17-55-55" class="headerlink" title="10：将系统时间设定成下午5点55分55秒的命令: date -s 17:55:55"></a>10：将系统时间设定成下午5点55分55秒的命令: <strong>date -s 17:55:55</strong></h4><h4 id="11-将当前时间和日期写入BIOS，避免重启后失效-hwclock-w"><a href="#11-将当前时间和日期写入BIOS，避免重启后失效-hwclock-w" class="headerlink" title="11: 将当前时间和日期写入BIOS，避免重启后失效:hwclock -w"></a>11: 将当前时间和日期写入BIOS，避免重启后失效:<strong>hwclock -w</strong></h4><h4 id="12-不加参数可以直接看到本月月历-cal"><a href="#12-不加参数可以直接看到本月月历-cal" class="headerlink" title="12:不加参数可以直接看到本月月历: cal"></a>12:不加参数可以直接看到本月月历: <strong>cal</strong></h4><h2 id="十二-：执行jar包命令"><a href="#十二-：执行jar包命令" class="headerlink" title="十二 ：执行jar包命令"></a>十二 ：执行jar包命令</h2><h4 id="执行jar命令：nohup-app-jdk1-8-0-45-bin-java-jar-Dspring-profiles-active-test-app-jar-ROOT-temp-opti-tamc-service-api-jar-gt-app-jar-ROOT-temp-tamc-service-api-log-2-gt-amp-1-amp"><a href="#执行jar命令：nohup-app-jdk1-8-0-45-bin-java-jar-Dspring-profiles-active-test-app-jar-ROOT-temp-opti-tamc-service-api-jar-gt-app-jar-ROOT-temp-tamc-service-api-log-2-gt-amp-1-amp" class="headerlink" title="执行jar命令：nohup /app/jdk1.8.0_45/bin/java -jar -Dspring.profiles.active=test /app/jar/ROOT/temp/opti/tamc-service-api.jar &gt;/app/jar/ROOT/temp/tamc-service-api.log 2&gt;&amp;1 &amp;"></a>执行jar命令：<strong>nohup /app/jdk1.8.0_45/bin/java -jar -Dspring.profiles.active=test /app/jar/ROOT/temp/opti/tamc-service-api.jar &gt;/app/jar/ROOT/temp/tamc-service-api.log 2&gt;&amp;1 &amp;</strong></h4><h4 id="执行jar-命令：-nohup-gt-notify-log-java-jar-tamc-cloud-notify-jar-2-gt-amp-1-amp"><a href="#执行jar-命令：-nohup-gt-notify-log-java-jar-tamc-cloud-notify-jar-2-gt-amp-1-amp" class="headerlink" title="执行jar 命令： nohup &gt; notify.log java -jar tamc-cloud-notify.jar 2&gt;&amp;1 &amp;"></a>执行jar 命令： <strong>nohup &gt; notify.log java -jar tamc-cloud-notify.jar 2&gt;&amp;1 &amp;</strong></h4><h4 id="执行jar命令：-nohup-app-jdk1-8-0-45-bin-java-jar-Dspring-profiles-active-test-app-jar-ROOT-temp-opti-tamc-service-api-jar-gt-app-jar-ROOT-temp-tamc-service-api-log-2-gt-amp"><a href="#执行jar命令：-nohup-app-jdk1-8-0-45-bin-java-jar-Dspring-profiles-active-test-app-jar-ROOT-temp-opti-tamc-service-api-jar-gt-app-jar-ROOT-temp-tamc-service-api-log-2-gt-amp" class="headerlink" title="执行jar命令： nohup /app/jdk1.8.0_45/bin/java -jar -Dspring.profiles.active=test /app/jar/ROOT/temp/opti/tamc-service-api.jar &gt;/app/jar/ROOT/temp/tamc-service-api.log 2&gt;&amp;"></a>执行jar命令： <strong>nohup /app/jdk1.8.0_45/bin/java -jar -Dspring.profiles.active=test /app/jar/ROOT/temp/opti/tamc-service-api.jar &gt;/app/jar/ROOT/temp/tamc-service-api.log 2&gt;&amp;</strong></h4><h4 id="执行jar命令：-app-jdk1-8-0-45-bin-java-jar-Dspring-profiles-active-test-app-jar-ROOT-tamc-service-api-jar-gt-app-jar-logs-tamc-service-api-log-2-gt-amp-1-amp"><a href="#执行jar命令：-app-jdk1-8-0-45-bin-java-jar-Dspring-profiles-active-test-app-jar-ROOT-tamc-service-api-jar-gt-app-jar-logs-tamc-service-api-log-2-gt-amp-1-amp" class="headerlink" title="执行jar命令： app/jdk1.8.0_45/bin/java -jar -Dspring.profiles.active=test /app/jar/ROOT/tamc-service-api.jar &gt;/app/jar/logs/tamc-service-api.log 2&gt;&amp;1 &amp;"></a>执行jar命令： <strong>app/jdk1.8.0_45/bin/java -jar -Dspring.profiles.active=test /app/jar/ROOT/tamc-service-api.jar &gt;/app/jar/logs/tamc-service-api.log 2&gt;&amp;1 &amp;</strong></h4><h4 id="执行jar包：-1234是生成的日志文件-nohup-java-Xms1024m-Xmx2048m-jar-ecn-cron-jar-gt-1234-amp-tail-f-1234"><a href="#执行jar包：-1234是生成的日志文件-nohup-java-Xms1024m-Xmx2048m-jar-ecn-cron-jar-gt-1234-amp-tail-f-1234" class="headerlink" title="执行jar包：   1234是生成的日志文件 nohup java -Xms1024m -Xmx2048m -jar ecn.cron.jar &gt;1234 &amp; tail -f 1234"></a>执行jar包：   1234是生成的日志文件 <strong>nohup java -Xms1024m -Xmx2048m -jar ecn.cron.jar &gt;1234 &amp; tail -f 1234</strong></h4><h4 id="执行jar包：-nohup-gt-notify-log-java-jar-tamc-cloud-notify-jar-2-gt-amp-1-amp"><a href="#执行jar包：-nohup-gt-notify-log-java-jar-tamc-cloud-notify-jar-2-gt-amp-1-amp" class="headerlink" title="执行jar包： nohup &gt; notify.log java -jar tamc-cloud-notify.jar 2&gt;&amp;1 &amp;"></a>执行jar包： <strong>nohup &gt; notify.log java -jar tamc-cloud-notify.jar 2&gt;&amp;1 &amp;</strong></h4></the>
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/11/20/linux的基本操作/">linux 的基本操作指令</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 Daniel 的个人博客">Daniel</a></p>
+        <p><span>发布时间:</span>2018年11月20日 - 00时00分</p>
+        <p><span>最后更新:</span>2018年11月29日 - 14时14分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/11/20/linux的基本操作/" title="linux 的基本操作指令">https://danielxsm.github.io/2018/11/20/linux的基本操作/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://danielxsm.github.io/2018/11/20/linux的基本操作/　　作者: Daniel" title=""></span>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target="_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2018/11/21/jwt详解/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          java jwt token鉴权
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/11/20/linux性能定位指令/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Linux 查看性能的指令</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一：find-命令"><span class="toc-number">1.</span> <span class="toc-text">一：find 命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-查找文件（根据文件格式进行查找）查找-home-下的以-txt结尾的文件：find-home-name-“-txt”"><span class="toc-number">1.0.1.</span> <span class="toc-text">1:查找文件（根据文件格式进行查找）查找/home 下的以.txt结尾的文件：find /home -name “*.txt”</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-递归查找所有的文件（当前目录及子目录下查找所有以-txt和-pdf结尾的文件-o-的意思为或者-）-find-name-“-txt”-o-name-“-pdf”"><span class="toc-number">1.0.2.</span> <span class="toc-text">2:递归查找所有的文件（当前目录及子目录下查找所有以.txt和.pdf结尾的文件,-o 的意思为或者 ）: find . -name “.txt” -o -name “.pdf”</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-查找-home-下不是以-txt结尾的文件：find-home-name-“-txt”"><span class="toc-number">1.0.3.</span> <span class="toc-text">3: 查找 /home 下不是以 .txt结尾的文件：find /home ! -name “.txt”</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-根据文件类型进行查找：-type-为类型参数"><span class="toc-number">1.0.4.</span> <span class="toc-text">4:根据文件类型进行查找： -type 为类型参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-查找-home-下的子目录：find-home-type-d"><span class="toc-number">1.0.5.</span> <span class="toc-text">5: 查找/home 下的子目录：find /home -type d</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-根据文件目录的层数进行查找：find-maxdepth-层数-按照最大的层数来查找，-mindepth-层数-按最小的层数来查找"><span class="toc-number">1.0.6.</span> <span class="toc-text">6: 根据文件目录的层数进行查找：find -maxdepth+层数 按照最大的层数来查找，-mindepth+层数 按最小的层数来查找</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7：查找-home-下目录最大层数为2层的文件-find-home-maxdepth-type-f"><span class="toc-number">1.0.7.</span> <span class="toc-text">7：查找/home 下目录最大层数为2层的文件: find /home -maxdepth - -type f</span></a></li></ol></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#二：-查看一个程序是否运行"><span class="toc-number">2.</span> <span class="toc-text">二： 查看一个程序是否运行</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-查看所有的tomcat的进程：ps-ef-grep-tomcat"><span class="toc-number">2.0.1.</span> <span class="toc-text">1: 查看所有的tomcat的进程：ps -ef|grep tomcat</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-终止线程19979的进程-终止线程：kill-9-19979"><span class="toc-number">2.0.2.</span> <span class="toc-text">2:终止线程19979的进程 终止线程：kill -9 19979</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3：批量终止java进程-pkill-9-java"><span class="toc-number">2.0.3.</span> <span class="toc-text">3：批量终止java进程:pkill -9 java</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三：-查看文件"><span class="toc-number">3.</span> <span class="toc-text">三： 查看文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-产看文件，包括隐藏文件：ls-al"><span class="toc-number">3.0.1.</span> <span class="toc-text">1:产看文件，包括隐藏文件：ls -al</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-查看目录：pwd"><span class="toc-number">3.0.2.</span> <span class="toc-text">2:查看目录：pwd</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-创建目录：mkdir-fold"><span class="toc-number">3.0.3.</span> <span class="toc-text">3:创建目录：mkdir fold</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-递归删除目录：rm-rf-fold"><span class="toc-number">3.0.4.</span> <span class="toc-text">4:递归删除目录：rm -rf fold</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-移动文件：mv-tmp-tofold"><span class="toc-number">3.0.5.</span> <span class="toc-text">5:移动文件：mv /tmp /tofold</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-重命名文件：mv-file1-file2"><span class="toc-number">3.0.6.</span> <span class="toc-text">6:重命名文件：mv file1 file2</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四：-复制文件"><span class="toc-number">4.</span> <span class="toc-text">四： 复制文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-复制当前文件到目标地址-：cp-source-dest"><span class="toc-number">4.0.1.</span> <span class="toc-text">1:复制当前文件到目标地址 ：cp source dest</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-复制当前目录”test-“下的所有的文件到新的目录-newtest下-：cp-–r-test-newtest"><span class="toc-number">4.0.2.</span> <span class="toc-text">2:复制当前目录”test/“下的所有的文件到新的目录 newtest下 ：cp –r test/ newtest</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3：远程拷贝（从远处复制目录到本地）-：scp-r-root-192-168-120-204-opt-soft-mongodb-opt-soft"><span class="toc-number">4.0.3.</span> <span class="toc-text">3：远程拷贝（从远处复制目录到本地） ：scp -r root@192.168.120.204:/opt/soft/mongodb /opt/soft/</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4：远程拷贝（从远处复制文件到本地目录）-：scp-root-192-168-120-204-opt-soft-nginx-0-5-38-tar-gz-opt-soft"><span class="toc-number">4.0.4.</span> <span class="toc-text">4：远程拷贝（从远处复制文件到本地目录） ：scp root@192.168.120.204:/opt/soft/nginx-0.5.38.tar.gz /opt/soft/</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5：远程拷贝（从本地服务器复制到远程服务器：）-：scp-local-file-remote-username-remote-ip-remote-folder"><span class="toc-number">4.0.5.</span> <span class="toc-text">5：远程拷贝（从本地服务器复制到远程服务器：） ：scp local_file remote_username@remote_ip:remote_folder</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五-权限"><span class="toc-number">5.</span> <span class="toc-text">五: 权限</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#切换用户：su-username"><span class="toc-number">5.0.1.</span> <span class="toc-text">切换用户：su -username</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#su方式切换是须要输入目标用户的password。而sudo仅仅须要输入自己的password，所以sudo能够保护目标用户的password不外流的。当帮root管理系统的时候，su是直接将root全部权利交给用户。而sudo能够更好分工，仅仅要配置好-etc-sudoers，这样sudo能够保护系统更安全，并且分工明白，有条不紊。"><span class="toc-number">5.0.2.</span> <span class="toc-text">su方式切换是须要输入目标用户的password。而sudo仅仅须要输入自己的password，所以sudo能够保护目标用户的password不外流的。当帮root管理系统的时候，su是直接将root全部权利交给用户。而sudo能够更好分工，仅仅要配置好/etc/sudoers，这样sudo能够保护系统更安全，并且分工明白，有条不紊。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#sudo-s-切换root权限-sudo-su-和-sudo-s都是切换到root用户，不同的是："><span class="toc-number">5.0.3.</span> <span class="toc-text">sudo -s  切换root权限 ,sudo su 和 sudo -s都是切换到root用户，不同的是：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#例如：sudo-head-head-n-30000-etc-sudoers"><span class="toc-number">5.0.4.</span> <span class="toc-text">例如：sudo head head -n 30000 /etc/sudoers</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#修改文件权限-chmod-777-file-java"><span class="toc-number">5.0.5.</span> <span class="toc-text">修改文件权限: chmod 777 file.java</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#六：文件"><span class="toc-number">6.</span> <span class="toc-text">六：文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-压缩文件-tar-czf-test-tar-gz-test1-test2"><span class="toc-number">6.0.1.</span> <span class="toc-text">1:压缩文件 tar -czf test.tar.gz /test1 /test2</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-压缩成zip-的文件-：zip-r-test-zip-test"><span class="toc-number">6.0.2.</span> <span class="toc-text">2:压缩成zip 的文件 ：zip -r test.zip /test</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-列出压缩文件的列表-：tar-tzf-test-tar-gz"><span class="toc-number">6.0.3.</span> <span class="toc-text">3:列出压缩文件的列表 ：tar tzf test.tar.gz</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-解压gz文件-：tar-zxvf-test-tar-gz"><span class="toc-number">6.0.4.</span> <span class="toc-text">4:解压gz文件 ：tar -zxvf test.tar.gz</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-解压zip文件-：unzip-test-zip"><span class="toc-number">6.0.5.</span> <span class="toc-text">5:解压zip文件 ：unzip test.zip</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#七：查看日志"><span class="toc-number">7.</span> <span class="toc-text">七：查看日志</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#查看头10行的：head-n-10-example-txt"><span class="toc-number">7.0.1.</span> <span class="toc-text">查看头10行的：head -n 10 example.txt</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查看后10行的：tail-n-10-example-txt"><span class="toc-number">7.0.2.</span> <span class="toc-text">查看后10行的：tail -n 10 example.txt</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查看日志最新的10行-tail-f-example-log"><span class="toc-number">7.0.3.</span> <span class="toc-text">查看日志最新的10行: tail -f example.log</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查看日志的后10000行-关键字是-Exception-的前后50行的日志：tail-n-10000-aa-log-grep-C-50-‘Exception’"><span class="toc-number">7.0.4.</span> <span class="toc-text">查看日志的后10000行,关键字是 Exception 的前后50行的日志：tail -n 10000 aa.log|grep -C 50 ‘Exception’</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#根据行号查找对应的数据1：cat-n-aa-log-grep-‘aa’"><span class="toc-number">7.0.5.</span> <span class="toc-text">根据行号查找对应的数据1：cat -n aa.log |grep ‘aa’</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#根据行号查找对应的数据2：cat-n-aa-log-tail-n-3586-head-n-100"><span class="toc-number">7.0.6.</span> <span class="toc-text">根据行号查找对应的数据2：cat -n aa.log |tail -n +3586|head -n 100</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#less查看日志：less-a-log"><span class="toc-number">7.0.7.</span> <span class="toc-text">less查看日志：less a.log</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#八-系统配置"><span class="toc-number">8.</span> <span class="toc-text">八 系统配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#在LINUX-系统中的配置文件的路径为：-etc-profile"><span class="toc-number">8.0.1.</span> <span class="toc-text">在LINUX 系统中的配置文件的路径为：/etc/profile</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用-cat-etc-profile-来查看配置文件的内容，profile-配置文件的的信息："><span class="toc-number">8.0.2.</span> <span class="toc-text">使用 cat/etc/profile 来查看配置文件的内容，profile 配置文件的的信息：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#九查看端口号"><span class="toc-number">9.</span> <span class="toc-text">九查看端口号</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#查看端口的状态-：lsof-i-8080"><span class="toc-number">9.0.1.</span> <span class="toc-text">查看端口的状态 ：lsof -i:8080</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查看哪些端口被打开：netstat-anp"><span class="toc-number">9.0.2.</span> <span class="toc-text">查看哪些端口被打开：netstat -anp</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#关闭端口号-通过iptables工具将该端口禁掉，-1：sudo-iptables-A-INPUT-p-tcp-–dport-PORT-j-DROP”-sudo-iptables-A-OUTPUT-p-tcp-–dport-PORT-j-DROP”"><span class="toc-number">9.0.3.</span> <span class="toc-text">关闭端口号(通过iptables工具将该端口禁掉，)1：sudo iptables -A INPUT -p tcp –dport $PORT -j DROP” , sudo iptables -A OUTPUT -p tcp –dport $PORT -j DROP”</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#关闭端口号-关掉对应的应用程序，则端口就自然关闭了-2：kill-9-PID”-PID：进程号"><span class="toc-number">9.0.4.</span> <span class="toc-text">关闭端口号(关掉对应的应用程序，则端口就自然关闭了)2：kill -9 PID” (PID：进程号)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#kill-sig-pid-这里的-sig-可以是信号对应的数字，也可以是信号名，比如你如果用-kill-9-pid-实际是发-9号信号给进城，9对应的信号名是-KILL。所以-kill-9-等价于-kill-KILL-pid。-常用的几个信号是"><span class="toc-number">9.0.5.</span> <span class="toc-text">kill -sig pid,这里的 sig 可以是信号对应的数字，也可以是信号名，比如你如果用 kill -9 pid 实际是发 9号信号给进城，9对应的信号名是 KILL。所以 kill -9 等价于 kill -KILL pid。 常用的几个信号是 :</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#打开端口号-1-开放端口命令：：1：-sbin-iptables-I-INPUT-p-tcp-–dport-8080-j-ACCEPT-2-保存：-etc-rc-d-init-d-iptables-save-3-重启服务：-etc-init-d-iptables-restart-4-查看端口是否开放：-sbin-iptables-L-n"><span class="toc-number">9.0.6.</span> <span class="toc-text">打开端口号,1. 开放端口命令：：1： /sbin/iptables -I INPUT -p tcp –dport 8080 -j ACCEPT 2.保存：/etc/rc.d/init.d/iptables save  3.重启服务：/etc/init.d/iptables restart 4.查看端口是否开放：/sbin/iptables -L -n</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#直接编辑-etc-sysconfig-iptables文件：1-编辑-etc-sysconfig-iptables文件：vi-etc-sysconfig-iptables-加入内容并保存：-A-RH-Firewall-1-INPUT-m-state-–state-NEW-m-tcp-p-tcp-–dport-8080-j-ACCEPT-2-重启服务：-etc-init-d-iptables-restart-3-查看端口是否开放：-sbin-iptables-L-n"><span class="toc-number">9.0.7.</span> <span class="toc-text">直接编辑/etc/sysconfig/iptables文件：1.编辑/etc/sysconfig/iptables文件：vi /etc/sysconfig/iptables, 加入内容并保存：-A RH-Firewall-1-INPUT -m state –state NEW -m tcp -p tcp –dport 8080 -j ACCEPT  2.重启服务：/etc/init.d/iptables restart   3.查看端口是否开放：/sbin/iptables -L -n</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#十：防火墙"><span class="toc-number">10.</span> <span class="toc-text">十：防火墙</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#查看防火墙的状态-service-iptables-status-etc-init-d-iptables-status"><span class="toc-number">10.0.1.</span> <span class="toc-text">查看防火墙的状态: service iptables status   /etc/init.d/iptables status</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#开启防火墙-service-iptables-start"><span class="toc-number">10.0.2.</span> <span class="toc-text">开启防火墙: service iptables start</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#关闭防火墙：service-iptables-stop"><span class="toc-number">10.0.3.</span> <span class="toc-text">关闭防火墙：service iptables stop</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#暂时关闭防火墙：-etc-init-d-iptables-stop"><span class="toc-number">10.0.4.</span> <span class="toc-text">暂时关闭防火墙： /etc/init.d/iptables stop</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#重启iptables-etc-init-d-iptables-restart"><span class="toc-number">10.0.5.</span> <span class="toc-text">重启iptables : /etc/init.d/iptables restart</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#获取外网的ip-curl-ipecho-net-plain"><span class="toc-number">10.0.6.</span> <span class="toc-text">获取外网的ip:curl ipecho.net/plain </span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#更改文件夹的权限-路径权限：chown-centos-centos-app-jar-R-更改文件夹的权限。路径全线"><span class="toc-number">10.0.7.</span> <span class="toc-text">更改文件夹的权限,路径权限：chown centos.centos /app/jar -R 更改文件夹的权限。路径全线</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#修改文件夹的读写和执行权限：-chmod-777-file"><span class="toc-number">10.0.8.</span> <span class="toc-text">修改文件夹的读写和执行权限： chmod 777 file</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#十一：查看系统信息"><span class="toc-number">11.</span> <span class="toc-text">十一：查看系统信息</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#查看内存信息：free-m"><span class="toc-number">11.0.1.</span> <span class="toc-text">查看内存信息：free -m</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查看系统的日志信息：cat-var-log-messages"><span class="toc-number">11.0.2.</span> <span class="toc-text">查看系统的日志信息：cat /var/log/messages</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置服务器时间"><span class="toc-number">12.</span> <span class="toc-text">设置服务器时间</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-安装ntpdate-工具"><span class="toc-number">12.0.1.</span> <span class="toc-text">1:安装ntpdate 工具</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2：设置系统时间与网络时间同步：-ntpdate-cn-pool-ntp-org-或者-ntpdate-u-u-ntp1-aliyun-com"><span class="toc-number">12.0.2.</span> <span class="toc-text">2：设置系统时间与网络时间同步： ntpdate cn.pool.ntp.org 或者 ntpdate -u -u ntp1.aliyun.com</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3：查看当前时区date-R"><span class="toc-number">12.0.3.</span> <span class="toc-text">3：查看当前时区date -R</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-方法A-修改设置Linux服务器时区-tzselect"><span class="toc-number">12.0.4.</span> <span class="toc-text">4: 方法A,修改设置Linux服务器时区,tzselect</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-方法B-仅限于RedHat-Linux-和-CentOS“timeconfig”"><span class="toc-number">12.0.5.</span> <span class="toc-text">5: 方法B 仅限于RedHat Linux 和 CentOS“timeconfig”</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-方法C-适用于Debian-dpkg-reconfigure-tzdata"><span class="toc-number">12.0.6.</span> <span class="toc-text">6: 方法C,适用于Debian,dpkg-reconfigure tzdata</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-复制相应的时区文件，替换系统时区文件；或者创建链接文件-cp-usr-share-zoneinfo-主时区-次时区-etc-localtime-例如：cp-usr-share-zoneinfo-Asia-Shanghai-etc-localtime"><span class="toc-number">12.0.7.</span> <span class="toc-text">7:复制相应的时区文件，替换系统时区文件；或者创建链接文件:cp /usr/share/zoneinfo/$主时区/$次时区 /etc/localtime 例如：cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8：查看和修改Linux的时间-date”"><span class="toc-number">12.0.8.</span> <span class="toc-text">8：查看和修改Linux的时间: date”</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9：例如：将系统日期设定成2009年11月3日的命令-date-s-11-03-2009"><span class="toc-number">12.0.9.</span> <span class="toc-text">9：例如：将系统日期设定成2009年11月3日的命令: date -s 11/03/2009</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10：将系统时间设定成下午5点55分55秒的命令-date-s-17-55-55"><span class="toc-number">12.0.10.</span> <span class="toc-text">10：将系统时间设定成下午5点55分55秒的命令: date -s 17:55:55</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#11-将当前时间和日期写入BIOS，避免重启后失效-hwclock-w"><span class="toc-number">12.0.11.</span> <span class="toc-text">11: 将当前时间和日期写入BIOS，避免重启后失效:hwclock -w</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#12-不加参数可以直接看到本月月历-cal"><span class="toc-number">12.0.12.</span> <span class="toc-text">12:不加参数可以直接看到本月月历: cal</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#十二-：执行jar包命令"><span class="toc-number">13.</span> <span class="toc-text">十二 ：执行jar包命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#执行jar命令：nohup-app-jdk1-8-0-45-bin-java-jar-Dspring-profiles-active-test-app-jar-ROOT-temp-opti-tamc-service-api-jar-gt-app-jar-ROOT-temp-tamc-service-api-log-2-gt-amp-1-amp"><span class="toc-number">13.0.1.</span> <span class="toc-text">执行jar命令：nohup /app/jdk1.8.0_45/bin/java -jar -Dspring.profiles.active=test /app/jar/ROOT/temp/opti/tamc-service-api.jar &gt;/app/jar/ROOT/temp/tamc-service-api.log 2&gt;&amp;1 &amp;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#执行jar-命令：-nohup-gt-notify-log-java-jar-tamc-cloud-notify-jar-2-gt-amp-1-amp"><span class="toc-number">13.0.2.</span> <span class="toc-text">执行jar 命令： nohup &gt; notify.log java -jar tamc-cloud-notify.jar 2&gt;&amp;1 &amp;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#执行jar命令：-nohup-app-jdk1-8-0-45-bin-java-jar-Dspring-profiles-active-test-app-jar-ROOT-temp-opti-tamc-service-api-jar-gt-app-jar-ROOT-temp-tamc-service-api-log-2-gt-amp"><span class="toc-number">13.0.3.</span> <span class="toc-text">执行jar命令： nohup /app/jdk1.8.0_45/bin/java -jar -Dspring.profiles.active=test /app/jar/ROOT/temp/opti/tamc-service-api.jar &gt;/app/jar/ROOT/temp/tamc-service-api.log 2&gt;&amp;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#执行jar命令：-app-jdk1-8-0-45-bin-java-jar-Dspring-profiles-active-test-app-jar-ROOT-tamc-service-api-jar-gt-app-jar-logs-tamc-service-api-log-2-gt-amp-1-amp"><span class="toc-number">13.0.4.</span> <span class="toc-text">执行jar命令： app/jdk1.8.0_45/bin/java -jar -Dspring.profiles.active=test /app/jar/ROOT/tamc-service-api.jar &gt;/app/jar/logs/tamc-service-api.log 2&gt;&amp;1 &amp;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#执行jar包：-1234是生成的日志文件-nohup-java-Xms1024m-Xmx2048m-jar-ecn-cron-jar-gt-1234-amp-tail-f-1234"><span class="toc-number">13.0.5.</span> <span class="toc-text">执行jar包：   1234是生成的日志文件 nohup java -Xms1024m -Xmx2048m -jar ecn.cron.jar &gt;1234 &amp; tail -f 1234</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#执行jar包：-nohup-gt-notify-log-java-jar-tamc-cloud-notify-jar-2-gt-amp-1-amp"><span class="toc-number">13.0.6.</span> <span class="toc-text">执行jar包： nohup &gt; notify.log java -jar tamc-cloud-notify.jar 2&gt;&amp;1 &amp;</span></a></li></ol></li>
+</div>
+<style>
+    .left-col .switch-btn {
+        display: none;
+    }
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+<input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+            $(".switch-btn, .switch-area").fadeOut(300);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+            $(".switch-btn, .switch-area").fadeIn(500);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+        $(".switch-btn, .switch-area").show();
+    }
+</script>
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+        <section class="changyan" id="comments">
+  <!--<div id="uyan_frame"></div>-->
+  <div id="SOHUCS"></div>
+  <script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script>
+  <script type="text/javascript">
+    window.changyan.api.config({
+      appid: 'xxxx',
+      conf: 'xxxxxxxxx'
+    });
+  </script>
+</section>
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2018/11/21/jwt详解/" title="上一篇: java jwt token鉴权">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2018/11/20/linux性能定位指令/" title="下一篇: Linux 查看性能的指令">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/11/22/算法详解Paxos/">Paxos算法详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/22/maven指令详解/">maven指令详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/22/app消息个推详解/">app 消息个推详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/22/jvm带你走进虚拟机的世界/">java 带你走进虚拟机的世界</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/21/加密详解/">java 基本加密方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/21/jwt详解/">java jwt token鉴权</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/20/linux的基本操作/">linux 的基本操作指令</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/20/linux性能定位指令/">Linux 查看性能的指令</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/08/反射机制的渗透/">java 反射机制的渗透</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/08/代理模式的详解/">java 代理模式的详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/01/zookeeper的使用/">zookeeper的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/29/java的中的线程池/">java 线程池详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/20/队列的分析总结/">java 队列的分析总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/30/数据结构的分析/">java 数据结构的分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/28/spring的重试机制/">Spring的重试机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/28/OkHttpClient的使用/">OkHttpClient的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/java的中各种锁/">java 中的各种锁</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/java的中的多线程/">java 中的多线程</a></li></ul>
+    
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+
+    <script>
+        $(".post-list").addClass("toc-article");
+        // $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2018 Daniel
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">Hexo &nbsp;&nbsp;</a><a href="https://github.com/maochunguang" target="_blank">Blog</a> by tommy
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style="display:none">
+                        <span id="site-visit">极客到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style="display:none">
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 1;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'xxxxx', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?xxxxxx";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>
