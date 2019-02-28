@@ -13,19 +13,19 @@
 <meta name="keywords" content="代理">
 <meta property="og:type" content="article">
 <meta property="og:title" content="java 代理模式的详解">
-<meta property="og:url" content="https://danielxsm.github.io/2018/11/08/代理模式的详解/index.html">
+<meta property="og:url" content="https://github.com/DanielXSM/2018/11/08/代理模式的详解/index.html">
 <meta property="og:site_name" content="Daniel">
 <meta property="og:description" content="java 代理模式的详解： 欢迎来学习~~">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-11-29T06:13:00.688Z">
+<meta property="og:updated_time" content="2018-11-29T06:13:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java 代理模式的详解">
 <meta name="twitter:description" content="java 代理模式的详解： 欢迎来学习~~">
   
-    <link rel="alternative" href="https://github.com/DanielXSM" title="Daniel" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="Daniel" type="application/atom+xml">
   
   
-    <link rel="icon" href="/img/avatar1.png">
+    <link rel="icon" href="/img/yw.jpg">
   
   
   <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
@@ -64,7 +64,7 @@
 
         <a href="/" class="profilepic">
             
-            <img lazy-src="/img/avatar1.png" class="js-avatar">
+            <img lazy-src="/img/zj.jpeg" class="js-avatar">
             
         </a>
         <hgroup>
@@ -171,11 +171,13 @@
                         
                             <li><a href="/archives/">所有文章</a></li>
                         
-                            <li><a href="/categories/spring/">玩转spring</a></li>
+                            <li><a href="/categories/linux/">linux</a></li>
                         
-                            <li><a href="/categories/linux">Linux指令</a></li>
+                            <li><a href="/categories/java">java</a></li>
                         
-                            <li><a href="/categories/java">java大典</a></li>
+                            <li><a href="/categories/thread">thread</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
                         
                         </ul>
                     </nav>
@@ -184,7 +186,7 @@
                             
                                 <a class="fl github" target="_blank" href="https://github.com/DanielXSM" title="github">github</a>
                             
-                                <a class="fl weibo" target="_blank" href="https://github.com/DanielXSM" title="weibo">weibo</a>
+                                <a class="fl weibo" target="_blank" href="https://weibo.com/u/2406983007" title="weibo">weibo</a>
                             
                                 <a class="fl rss" target="_blank" href="https://github.com/DanielXSM" title="rss">rss</a>
                             
@@ -215,7 +217,7 @@
                 
                 <section class="switch-part switch-part4">
                 
-                    <div id="js-aboutme">运动，音乐，舞蹈!</div>
+                    <div id="js-aboutme">不积跬步无以至千里，不积小流无以成江河。</div>
                 </section>
                 
             </div>
@@ -234,7 +236,7 @@
         <header id="header" class="inner">
             <a href="/" class="profilepic">
                 
-                    <img lazy-src="/img/avatar1.png" class="js-avatar">
+                    <img lazy-src="/img/zj.jpeg" class="js-avatar">
                 
             </a>
             <hgroup>
@@ -246,11 +248,13 @@
                 
                     <li><a href="/archives/">所有文章</a></li>
                 
-                    <li><a href="/categories/spring/">玩转spring</a></li>
+                    <li><a href="/categories/linux/">linux</a></li>
                 
-                    <li><a href="/categories/linux">Linux指令</a></li>
+                    <li><a href="/categories/java">java</a></li>
                 
-                    <li><a href="/categories/java">java大典</a></li>
+                    <li><a href="/categories/thread">thread</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
                 
                 <div class="clearfix"></div>
                 </ul>
@@ -260,7 +264,7 @@
                     
                         <a class="github" target="_blank" href="https://github.com/DanielXSM" title="github">github</a>
                     
-                        <a class="weibo" target="_blank" href="https://github.com/DanielXSM" title="weibo">weibo</a>
+                        <a class="weibo" target="_blank" href="https://weibo.com/u/2406983007" title="weibo">weibo</a>
                     
                         <a class="rss" target="_blank" href="https://github.com/DanielXSM" title="rss">rss</a>
                     
@@ -269,7 +273,7 @@
         </header>
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-代理模式的详解" class="article article-type-post" itemscope="" itemprop="blogPost">
+      <div class="body-wrap"><article id="post-代理模式的详解" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2018/11/08/代理模式的详解/" class="article-date">
@@ -313,8 +317,8 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><strong> java 代理模式的详解：</strong> <excerpt in="" index="" |="" 首页摘要=""><br>欢迎来学习~~<br><a id="more"></a></excerpt></p>
-<the rest="" of="" contents="" |="" 余下全文="">
+        <p><strong> java 代理模式的详解：</strong> <excerpt in index | 首页摘要><br>欢迎来学习~~<br><a id="more"></a></excerpt></p>
+<the rest of contents | 余下全文>
 
 <h2 id="静态代理、JDK与CGLIB动态代理、AOP-IoC"><a href="#静态代理、JDK与CGLIB动态代理、AOP-IoC" class="headerlink" title="静态代理、JDK与CGLIB动态代理、AOP+IoC"></a>静态代理、JDK与CGLIB动态代理、AOP+IoC</h2><p><strong>1.接口,抽象主题</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.aa;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 接口</span></span><br><span class="line"><span class="comment"> * 抽象主题</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IMath</span> </span>&#123;</span><br><span class="line">    <span class="comment">//加</span></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> n1, <span class="keyword">int</span> n2)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line">```  </span><br><span class="line">**<span class="number">2</span>.主题类，算术类，实现抽象接口**</span><br><span class="line">``` java </span><br><span class="line"> <span class="number">2</span>、主题类，算术类，实现抽象接口。  </span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> com.bb;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 被代理的目标对象</span></span><br><span class="line"><span class="comment"> *真实主题</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Math</span> <span class="keyword">implements</span> <span class="title">IMath</span> </span>&#123;</span><br><span class="line">    <span class="comment">//加</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> n1,<span class="keyword">int</span> n2)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> result=n1+n2;</span><br><span class="line">        System.out.println(n1+<span class="string">"+"</span>+n2+<span class="string">"="</span>+result);</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">       </span><br><span class="line">&#125; </span><br><span class="line">```  </span><br><span class="line">**<span class="number">3</span>.静态代理类**</span><br><span class="line">``` java </span><br><span class="line"><span class="keyword">package</span> com.cc;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">import</span> java.util.Random;</span><br><span class="line"></span><br><span class="line"> <span class="comment">/**</span></span><br><span class="line"><span class="comment">  * 静态代理类</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MathProxy</span> <span class="keyword">implements</span> <span class="title">IMath</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">//被代理的对象</span></span><br><span class="line">     IMath math=<span class="keyword">new</span> Math();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//加</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> n1, <span class="keyword">int</span> n2)</span> </span>&#123;</span><br><span class="line">         <span class="comment">//开始时间</span></span><br><span class="line">       <span class="keyword">long</span> start=System.currentTimeMillis();</span><br><span class="line">        lazy();</span><br><span class="line">        <span class="keyword">int</span> result=math.add(n1, n2);</span><br><span class="line">       Long span= System.currentTimeMillis()-start;</span><br><span class="line">        System.out.println(<span class="string">"共用时："</span>+span);</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">``` </span><br><span class="line">**<span class="number">4</span>.测试运行** </span><br><span class="line">``` java </span><br><span class="line"><span class="keyword">package</span> com.dd;</span><br><span class="line"> </span><br><span class="line"> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">     </span><br><span class="line">     IMath math=<span class="keyword">new</span> MathProxy();</span><br><span class="line">     <span class="meta">@org</span>.junit.Test</span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test01</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">         <span class="keyword">int</span> n1=<span class="number">100</span>,n2=<span class="number">5</span>;</span><br><span class="line">         math.add(n1, n2);</span><br><span class="line">        math.sub(n1, n2);</span><br><span class="line">         math.mut(n1, n2);</span><br><span class="line">         math.div(n1, n2);</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br><span class="line">```  </span><br><span class="line">## 动态代理，使用JDK内置的Proxy实现</span><br><span class="line"></span><br><span class="line">``` java </span><br><span class="line"> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DynamicProxy</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">     <span class="comment">//被代理的对象</span></span><br><span class="line">     Object targetObject;</span><br><span class="line">     </span><br><span class="line">     <span class="comment">/**</span></span><br><span class="line"><span class="comment">      * 获得被代理后的对象</span></span><br><span class="line"><span class="comment">      * <span class="doctag">@param</span> object 被代理的对象</span></span><br><span class="line"><span class="comment">      * <span class="doctag">@return</span> 代理后的对象</span></span><br><span class="line"><span class="comment">      */</span></span><br><span class="line">     <span class="function"><span class="keyword">public</span> Object <span class="title">getProxyObject</span><span class="params">(Object object)</span></span>&#123;</span><br><span class="line">         <span class="keyword">this</span>.targetObject=object;</span><br><span class="line">        <span class="keyword">return</span> Proxy.newProxyInstance(</span><br><span class="line">                targetObject.getClass().getClassLoader(), <span class="comment">//类加载器</span></span><br><span class="line">               targetObject.getClass().getInterfaces(),  <span class="comment">//获得被代理对象的所有接口</span></span><br><span class="line">                <span class="keyword">this</span>);  <span class="comment">//InvocationHandler对象</span></span><br><span class="line">        <span class="comment">//loader:一个ClassLoader对象，定义了由哪个ClassLoader对象来生成代理对象进行加载</span></span><br><span class="line">        <span class="comment">//interfaces:一个Interface对象的数组，表示的是我将要给我需要代理的对象提供一组什么接口，如果我提供了一组接口给它，那么这个代理对象就宣称实现了该接口(多态)，这样我就能调用这组接口中的方法了</span></span><br><span class="line">        <span class="comment">//h:一个InvocationHandler对象，表示的是当我这个动态代理对象在调用方法的时候，会关联到哪一个InvocationHandler对象上，间接通过invoke来执行</span></span><br><span class="line">    &#125;</span><br><span class="line">``` </span><br><span class="line">``` java  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">      </span><br><span class="line">      <span class="comment">//实例化一个MathProxy代理对象</span></span><br><span class="line">      <span class="comment">//通过getProxyObject方法获得被代理后的对象</span></span><br><span class="line">      IMath math=(IMath)<span class="keyword">new</span> DynamicProxy().getProxyObject(<span class="keyword">new</span> Math());</span><br><span class="line">      <span class="meta">@org</span>.junit.Test</span><br><span class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test01</span><span class="params">()</span></span></span><br><span class="line"><span class="function">     </span>&#123;</span><br><span class="line">         <span class="keyword">int</span> n1=<span class="number">100</span>,n2=<span class="number">5</span>;</span><br><span class="line">         math.add(n1, n2);</span><br><span class="line">         math.sub(n1, n2);</span><br><span class="line">         math.mut(n1, n2);</span><br><span class="line">         math.div(n1, n2);</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure></p>
 <p><strong>JDK内置的Proxy动态代理可以在运行时动态生成字节码，而没必要针对每个类编写代理类。中间主要使用到了一个接口InvocationHandler与Proxy.newProxyInstance静态方法，参数说明如下：</strong></p>
@@ -344,8 +348,8 @@
         <p><span>发布时间:</span>2018年11月08日 - 00时00分</p>
         <p><span>最后更新:</span>2018年11月29日 - 14时13分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2018/11/08/代理模式的详解/" title="java 代理模式的详解">https://danielxsm.github.io/2018/11/08/代理模式的详解/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://danielxsm.github.io/2018/11/08/代理模式的详解/　　作者: Daniel" title=""></span>
+            <span>原始链接:</span><a class="post-url" href="/2018/11/08/代理模式的详解/" title="java 代理模式的详解">https://github.com/DanielXSM/2018/11/08/代理模式的详解/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://github.com/DanielXSM/2018/11/08/代理模式的详解/　　作者: Daniel" title></span>
         </p>
         <p>
             <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target="_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
@@ -463,7 +467,7 @@
             </a>
         
     </div>
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/11/22/算法详解Paxos/">Paxos算法详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/22/maven指令详解/">maven指令详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/22/app消息个推详解/">app 消息个推详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/22/jvm带你走进虚拟机的世界/">java 带你走进虚拟机的世界</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/21/加密详解/">java 基本加密方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/21/jwt详解/">java jwt token鉴权</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/20/linux的基本操作/">linux 的基本操作指令</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/20/linux性能定位指令/">Linux 查看性能的指令</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/08/反射机制的渗透/">java 反射机制的渗透</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/08/代理模式的详解/">java 代理模式的详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/01/zookeeper的使用/">zookeeper的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/29/java的中的线程池/">java 线程池详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/20/队列的分析总结/">java 队列的分析总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/30/数据结构的分析/">java 数据结构的分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/28/spring的重试机制/">Spring的重试机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/28/OkHttpClient的使用/">OkHttpClient的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/java的中各种锁/">java 中的各种锁</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/java的中的多线程/">java 中的多线程</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/11/22/算法详解Paxos/">Paxos算法详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/22/maven指令详解/">maven指令详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/22/app消息个推详解/">app 消息个推详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/22/jvm带你走进虚拟机的世界/">java 带你走进虚拟机的世界</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/21/加密详解/">java 基本加密方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/21/jwt详解/">java jwt token鉴权</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/20/linux性能定位指令/">Linux 查看性能的指令</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/20/linux的基本操作/">linux 的基本操作指令</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/08/反射机制的渗透/">java 反射机制的渗透</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/08/代理模式的详解/">java 代理模式的详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/01/zookeeper的使用/">zookeeper的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/29/java的中的线程池/">java 线程池详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/20/队列的分析总结/">java 队列的分析总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/30/数据结构的分析/">java 数据结构的分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/28/spring的重试机制/">Spring的重试机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/28/OkHttpClient的使用/">OkHttpClient的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/java的中各种锁/">java 中的各种锁</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/java的中的多线程/">java 中的多线程</a></li></ul>
     
 <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
 
@@ -499,10 +503,10 @@
     <div class="outer">
         <div id="footer-info">
             <div class="footer-left">
-                &copy; 2018 Daniel
+                &copy; 2019 Daniel
             </div>
             <div class="footer-right">
-                <a href="http://hexo.io/" target="_blank">Hexo &nbsp;&nbsp;</a><a href="https://github.com/maochunguang" target="_blank">Blog</a> by tommy
+                <a href="http://hexo.io/" target="_blank">Hexo &nbsp;&nbsp;</a><a href="https://github.com/DanielXSM" target="_blank">Blog</a> by tommy
             </div>
         </div>
         
